@@ -5,8 +5,8 @@ collection:
 #   - Language
 #   - Genre
 featured:
-  - https://lebanon-constitution.s3.eu-central-1.amazonaws.com/1/manifest
-  - https://lebanon-constitution.s3.eu-central-1.amazonaws.com/2/manifest
+  - https://lebanon-constitution.s3.eu-central-1.amazonaws.com/01/manifest
+  - https://lebanon-constitution.s3.eu-central-1.amazonaws.com/02/manifest
 search:
   results:
     work:

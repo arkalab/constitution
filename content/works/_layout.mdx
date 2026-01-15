@@ -23,10 +23,11 @@ import {
       <References />
       <Metadata manifest={props.manifest} />
       <RequiredStatement manifest={props.manifest} />
+      <Id id={props.manifest.id} />
     </div>
   </div>
 </Container>
-{/* <Container>
+<Container>
   <Scroll
     iiifContent={props.manifest.id}
     options={{
@@ -38,7 +39,7 @@ import {
       },
     }}
   />
-</Container> */}
+</Container>
 <Container>
   <h2>Related Items</h2>
   <RelatedItems iiifContent={props.manifest.id} top={3} />

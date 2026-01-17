@@ -1,13 +1,43 @@
-/** 
- * Example custom color variables
- * @see https://canopy-iiif.github.io/app/docs/theming/tailwind#custom
- */
-
-/* @layer properties {
+@layer properties {
   :root,
   :host {
-    --color-northwestern-purple: #4e2a84;
-    --color-accent-700: var(--color-northwestern-purple);
-    --color-accent-default: var(--color-northwestern-purple);
+    /* Variáveis de fonte personalizadas */
+    --font-sans: 'Open Sans', system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+    --font-serif: 'CormorantGaramond', Georgia, "Times New Roman", serif;
+    --default-font-family: var(--font-sans);
   }
-} */
+}
+
+@layer base {
+
+  body {
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  .canopy-logo {
+    font-family: 'CormorantGaramond', serif;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+
+  blockquote,
+  em,
+  i,
+  cite {
+    font-family: 'CormorantGaramond', serif;
+    font-weight: 500;
+    font-style: italic;
+  }
+
+
+}
+
+.canopy-interstitial--hero {
+  --hero-bg-start: var(--color-gray-50);
+  --hero-bg-mid: #F2EFE8;
+  --hero-bg-end: #F2EFE8;
+}

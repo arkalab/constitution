@@ -28,5 +28,5 @@ search:
         - tagging
 theme:
   appearance: light
-  accentColor: indigo
+  accentColor: red
   grayColor: slate

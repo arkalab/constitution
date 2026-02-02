@@ -4,7 +4,7 @@ import {CanopyHeader, CanopyFooter} from "@canopy-iiif/app/ui";
 export function Head() {
   return (
     <>
-      <Meta siteTitle="Site Title" />
+      <Meta siteTitle="Chiha Constitutional Papers" />
       <Stylesheet />
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link
@@ -29,17 +29,16 @@ export function App({children}) {
     <>
       <CanopyHeader
         navigation={[
-          {href: "/essay", label: "Essay"},
-          {href: "/timeline", label: "Timeline"},
+          {href: "/about", label: "About"}, 
           {href: "/search", label: "Works"},
-          {href: "/about", label: "About"},
+          {href: "/timeline", label: "Timeline"},
         ]}
         title="Michel Chiha's Constitutional Papers"
         logo={Logo}
       />
       <main>{children}</main>
       <CanopyFooter>
-        <p>Copyright 2025 Site Title, MIT License. A Canopy IIIF Project.</p>
+        <p>Copyright 2025 Michel Chiha Foundation, MIT License. A Canopy IIIF Project.</p>
       </CanopyFooter>
     </>
   );

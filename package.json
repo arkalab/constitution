@@ -6,7 +6,8 @@
   "main": "app/scripts/canopy-build.mjs",
   "scripts": {
     "build": "tsx app/scripts/canopy-build.mts",
-    "dev": "tsx app/scripts/canopy-build.mts"
+    "dev": "tsx app/scripts/canopy-build.mts",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@canopy-iiif/app": "^1.5.8",
@@ -18,6 +19,7 @@
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.13",
+    "patch-package": "^8.0.1",
     "tailwindcss": "^4.1.13",
     "tsx": "^4.19.1"
   },

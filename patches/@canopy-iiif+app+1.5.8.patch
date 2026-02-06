@@ -1,0 +1,130 @@
+diff --git a/node_modules/@canopy-iiif/app/ui/styles/components/header/_header.scss b/node_modules/@canopy-iiif/app/ui/styles/components/header/_header.scss
+index 169f161..29ba219 100644
+--- a/node_modules/@canopy-iiif/app/ui/styles/components/header/_header.scss
++++ b/node_modules/@canopy-iiif/app/ui/styles/components/header/_header.scss
+@@ -13,8 +13,10 @@
+     display: flex;
+     align-items: center;
+     gap: 0.75rem;
+-    flex: 0 0 auto;
++    flex: 1 1 0%; // custom
+     min-width: 0;
++    max-width: 100vw;
++    overflow: hidden;
+   }
+ 
+   .canopy-header__menu {
+@@ -159,5 +161,9 @@
+     .canopy-modal--search {
+       display: none !important;
+     }
++
++    .canopy-header__brand {
++      flex: 0 0 auto; // custom
++    }
+   }
+ }
+diff --git a/node_modules/@canopy-iiif/app/ui/styles/index.css b/node_modules/@canopy-iiif/app/ui/styles/index.css
+index 728684e..3895b8c 100644
+--- a/node_modules/@canopy-iiif/app/ui/styles/index.css
++++ b/node_modules/@canopy-iiif/app/ui/styles/index.css
+@@ -1,3 +1,77 @@
++/* canopy-theme */
++@layer properties {
++  :root {
++  --color-accent-50: #fffcfc;
++  --color-accent-100: #feebec;
++  --color-accent-200: #ffdbdc;
++  --color-accent-300: #fdbdbe;
++  --color-accent-400: #f4a9aa;
++  --color-accent-500: #eb8e90;
++  --color-accent-600: #e5484d;
++  --color-accent-700: #dc3e42;
++  --color-accent-800: #ce2c31;
++  --color-accent-900: #641723;
++  --color-accent-default: #dc3e42;
++  --color-gray-50: #fcfcfd;
++  --color-gray-100: #f0f0f3;
++  --color-gray-200: #e8e8ec;
++  --color-gray-300: #d9d9e0;
++  --color-gray-400: #cdced6;
++  --color-gray-500: #b9bbc6;
++  --color-gray-600: #8b8d98;
++  --color-gray-700: #80838d;
++  --color-gray-800: #60646c;
++  --color-gray-900: #1c2024;
++  --color-gray-default: #1c2024;
++  --color-gray-muted: #8b8d98;
++  --colors-accent: #dc3e42 !important;
++  --colors-accentAlt: #ce2c31 !important;
++  --colors-accentMuted: #f4a9aa !important;
++  --colors-primary: #1c2024 !important;
++  --colors-primaryAlt: #1c2024 !important;
++  --colors-primaryMuted: #1c2024 !important;
++  --colors-secondary: #fcfcfd !important;
++  --colors-secondaryAlt: #fcfcfd !important;
++  --colors-secondaryMuted: #fcfcfd !important;
++  color-scheme: light;
++  }
++  :host {
++  --color-accent-50: #fffcfc;
++  --color-accent-100: #feebec;
++  --color-accent-200: #ffdbdc;
++  --color-accent-300: #fdbdbe;
++  --color-accent-400: #f4a9aa;
++  --color-accent-500: #eb8e90;
++  --color-accent-600: #e5484d;
++  --color-accent-700: #dc3e42;
++  --color-accent-800: #ce2c31;
++  --color-accent-900: #641723;
++  --color-accent-default: #dc3e42;
++  --color-gray-50: #fcfcfd;
++  --color-gray-100: #f0f0f3;
++  --color-gray-200: #e8e8ec;
++  --color-gray-300: #d9d9e0;
++  --color-gray-400: #cdced6;
++  --color-gray-500: #b9bbc6;
++  --color-gray-600: #8b8d98;
++  --color-gray-700: #80838d;
++  --color-gray-800: #60646c;
++  --color-gray-900: #1c2024;
++  --color-gray-default: #1c2024;
++  --color-gray-muted: #8b8d98;
++  --colors-accent: #dc3e42 !important;
++  --colors-accentAlt: #ce2c31 !important;
++  --colors-accentMuted: #f4a9aa !important;
++  --colors-primary: #1c2024 !important;
++  --colors-primaryAlt: #1c2024 !important;
++  --colors-primaryMuted: #1c2024 !important;
++  --colors-secondary: #fcfcfd !important;
++  --colors-secondaryAlt: #fcfcfd !important;
++  --colors-secondaryMuted: #fcfcfd !important;
++  color-scheme: light;
++  }
++}
++/* canopy-theme:end */
+ /**
+  * Main stylesheet for the @canopy-iiif/app/ui package
+  */
+@@ -580,8 +654,10 @@ section[data-footnotes] ul li,
+     display: flex;
+     align-items: center;
+     gap: 0.75rem;
+-    flex: 0 0 auto;
++    flex: 1 1 0%;
+     min-width: 0;
++    max-width: 100vw;
++    overflow: hidden;
+   }
+   .canopy-header__menu {
+     display: inline-flex;
+@@ -696,6 +772,9 @@ section[data-footnotes] ul li,
+     .canopy-modal--search {
+       display: none !important;
+     }
++    .canopy-header__brand {
++      flex: 0 0 auto;
++    }
+   }
+ }
+ @layer components {

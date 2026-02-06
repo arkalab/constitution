@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "@canopy-iiif/app/ui/styles/index.css";
+@import "./canopy-overrides.css";
 @import "./custom.css";
+@import "./new-components.css";
 
 @utility max-w-content {
   max-width: 1080px;

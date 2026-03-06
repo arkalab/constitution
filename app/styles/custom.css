@@ -1,17 +1,29 @@
 @layer properties {
   :root,
   :host {
-    /* Variáveis de fonte personalizadas */
-    --font-sans: 'Open Sans', system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
-    --font-serif: 'CormorantGaramond', Georgia, "Times New Roman", serif;
-    --default-font-family: var(--font-sans);
+    --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+    --font-sans:
+      "Funnel Sans", system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+    --font-logo: "Instrument Serif", Georgia, "Times New Roman", serif;
+    --font-title: "Hedvig Letters Serif", Georgia, "Times New Roman", serif;
+    --font-text:
+      "Funnel Sans", system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+
+    --max-width-container: 1320px;
+    --navbar-height: 64px;
   }
 }
 
 @layer base {
+  html {
+    background-color: #f2efe8;
+    color: #1a1b25;
+  }
 
   body {
-    font-family: 'Open Sans', sans-serif;
+    background-color: #f2efe8;
+    color: #1a1b25;
+    font-family: var(--font-sans);
   }
 
   h1,
@@ -19,25 +31,20 @@
   h3,
   h4,
   .canopy-logo {
-    font-family: 'CormorantGaramond', serif;
-    font-weight: 600;
-    letter-spacing: -0.025em;
+    font-family: var(--font-serif);
   }
 
   blockquote,
   em,
   i,
   cite {
-    font-family: 'CormorantGaramond', serif;
-    font-weight: 500;
+    font-family: var(--font-serif);
     font-style: italic;
   }
-
-
 }
 
 .canopy-interstitial--hero {
   --hero-bg-start: var(--color-gray-50);
-  --hero-bg-mid: #F2EFE8;
-  --hero-bg-end: #F2EFE8;
+  --hero-bg-mid: #f2efe8;
+  --hero-bg-end: #f2efe8;
 }

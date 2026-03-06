@@ -7,6 +7,7 @@
 export const components = {
   HeroSection: "./HeroSection.tsx",
   NavBar: "./NavBar.tsx",
+  FooterSection: "./FooterSection.tsx",
 };
  
 // Map browser-only components to their source files; the builder bundles

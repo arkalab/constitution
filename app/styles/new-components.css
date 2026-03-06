@@ -1,3 +1,7 @@
+li {
+  list-style: none;
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -104,11 +108,57 @@
   padding: 0 0 50px 0;
   margin: 0;
   color: #1a1b25;
-  font-family: "Hedvig Letters Serif";
+  font-family: var(--font-title);
   font-size: 20px;
   line-height: 130%;
   text-align: center;
   vertical-align: middle;
   text-decoration: none;
   font-style: normal;
+}
+
+.footer {
+  background-color: #1a1b25;
+  color: #f2efe8;
+  padding: 58px 0;
+}
+
+.footer__inner {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  max-width: var(--max-width-container);
+  margin-inline: auto;
+  padding-inline: 2rem;
+}
+
+.footer__list {
+  grid-column: span 2;
+  padding: 0;
+}
+
+.footer__language {
+  grid-column: span 2;
+  display: flex;
+  gap: 8px;
+  padding: 0;
+  align-self: start;
+}
+
+.footer__logo {
+  grid-column: 10 / span 3;
+  grid-row: 1;
+  width: 100%;
+  display: block;
+}
+
+.footer__item {
+  color: #f2efe8;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.footer__language-item {
+  color: #5F6650;
+  font-size: 16px;
+  font-family: var(--font-sans);
 }

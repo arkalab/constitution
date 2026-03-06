@@ -36,22 +36,11 @@ export function Head() {
   );
 }
 
-export function App({children}) {
+export function App({ children }) {
   return (
     <>
-      <CanopyHeader
-        navigation={[
-          {href: "/about", label: "About"}, 
-          {href: "/search", label: "Papers"},
-          {href: "/timeline", label: "Timeline"},
-        ]}
-        title="Michel Chiha's Constitutional Papers"
-        logo={Logo}
-      />
+      <NavBar />
       <main>{children}</main>
-      <CanopyFooter>
-        <p>Copyright 2025 Michel Chiha Foundation, MIT License. A Canopy IIIF Project.</p>
-      </CanopyFooter>
     </>
   );
 }

@@ -1,7 +1,7 @@
 navigation:
-  - href: /ar/search
-    label: Papers
   - href: /ar/about
     label: About
+  - href: /ar/search
+    label: Papers
   - href: /ar/timeline
     label: Timeline

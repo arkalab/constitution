@@ -1,0 +1,7 @@
+navigation:
+  - href: /ar/search
+    label: Papers
+  - href: /ar/about
+    label: About
+  - href: /ar/timeline
+    label: Timeline

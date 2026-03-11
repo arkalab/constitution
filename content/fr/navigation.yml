@@ -1,0 +1,7 @@
+navigation:
+  - href: /fr/search
+    label: Papiers
+  - href: /fr/a-propos
+    label: A propos
+  - href: /fr/chronologie
+    label: Chronologie

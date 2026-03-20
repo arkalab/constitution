@@ -41,6 +41,16 @@
     font-family: var(--font-serif);
     font-style: italic;
   }
+
+  ::selection {
+    background-color: rgba(95, 102, 80, 0.85);
+    color: white;
+  }
+
+  ::-moz-selection {
+    background-color: rgba(95, 102, 80, 0.85);
+    color: white;
+  }
 }
 
 .canopy-interstitial--hero {

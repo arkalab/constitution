@@ -8,10 +8,18 @@ export const components = {
   HeroSection: "./HeroSection.tsx",
   NavBar: "./NavBar.tsx",
   FooterSection: "./FooterSection.tsx",
+  AboutNav: "./AboutNav.tsx",
+  AboutLayout: "./AboutLayout.tsx",
+  AboutPageLayout: "./AboutPageLayout.tsx",
+  SectionTitle: "./SectionTitle.tsx",
+  SectionSubtitle: "./SectionSubtitle.tsx",
+  SectionCTA: "./SectionCTA.tsx",
+  SectionFeaturedImage: "./SectionFeaturedImage.tsx",
+  SectionBody: "./SectionBody.tsx",
 };
  
 // Map browser-only components to their source files; the builder bundles
 // them separately and hydrates placeholders at runtime.
-// export const clientComponents = {
-//   ExampleClient: "./Example.client.tsx",
-// };
+export const clientComponents = {
+  SearchPage: "./SearchPage.client.tsx",
+};

@@ -612,41 +612,77 @@ body {
 
 /* About Section Components */
 
-/* About Navigation */
-.about-nav {
-  margin-bottom: 3rem;
+/* About Navigation — override canopy-sub-navigation */
+.about-nav.canopy-sub-navigation {
+  margin-bottom: 0rem;
 }
 
-.about-nav__list {
-  gap: 2rem;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.about-nav__item {
-  margin: 0;
-  padding: 0;
-}
-
-.about-nav__link {
-  display: inline-block;
+.about-nav .canopy-sub-navigation__link {
   font-family: var(--font-sans);
   font-size: 20px;
   color: #5f6650;
-  text-decoration: none;
+  border-radius: 0;
+  padding: 0;
+  margin-bottom: 10px;
   border-bottom: 2px solid transparent;
   transition: all 0.2s ease;
-  margin-bottom: 10px;
 }
 
-.about-nav__link:hover {
+.about-nav .canopy-sub-navigation__link:hover {
   color: #5f6650;
   font-weight: 700;
 }
 
-.about-nav__link--active {
+.about-nav .canopy-sub-navigation__link.is-active {
   font-weight: 700;
+  color: #5f6650;
+}
+
+.about-nav .canopy-nav-tree__link {
+  color: #5f6650 !important;
+  font-family: var(--font-sans) !important;
+  font-weight: 400 !important;
+  font-size: 20px !important;
+  line-height: 100% !important;
+}
+
+.about-nav .canopy-nav-tree__link.is-active {
+  color: #5f6650 !important;
+  font-family: var(--font-sans) !important;
+  font-weight: 700 !important;
+  font-size: 20px !important;
+  line-height: 100% !important;
+}
+
+.canopy-nav-tree__list--nested {
+  border-left: 1px solid rgba(95, 102, 80, 0.2) !important;
+}
+
+.canopy-sub-navigation__tree .canopy-nav-tree__link.is-active {
+  color: rgba(95, 102, 80, 1) !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  line-height: 100% !important;
+}
+
+.canopy-sub-navigation__tree .canopy-nav-tree__link {
+  color: rgba(95, 102, 80, 1) !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 100% !important;
+  text-indent: 20px !important;
+}
+
+.canopy-nav-tree__toggle svg:hover {
+  color: rgba(95, 102, 80, 1) !important;
+}
+
+button.canopy-nav-tree__toggle:hover {
+  color: rgba(95, 102, 80, 1) !important;
+}
+
+svg.canopy-nav-tree__toggle-icon {
+  color: rgba(95, 102, 80, 1) !important;
 }
 
 /* About Index Page */
@@ -792,12 +828,80 @@ body {
   align-self: start;
 }
 
+/* Sidebar toggle buttons — shared styles */
+.about-menu-details {
+  margin-top: 0;
+}
+
+.about-toc-details {
+  margin-top: 60px;
+}
+
+.about-toc-details:not(:has(nav ul)) {
+  display: none;
+}
+
+.about-menu-summary,
+.about-toc-summary {
+  list-style: none;
+  width: fit-content;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: #5f6650;
+  cursor: pointer;
+  margin-bottom: 28px;
+  transition: opacity 0.2s ease;
+  border: 1px solid rgba(95, 102, 80, 1);
+  padding: 2px 16px;
+  border-radius: 20px !important;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.about-menu-summary::-webkit-details-marker,
+.about-toc-summary::-webkit-details-marker {
+  display: none;
+}
+
+.about-menu-summary:hover,
+.about-toc-summary:hover {
+  opacity: 0.7;
+}
+
+/* Menu toggle text */
+.about-menu-summary::before {
+  content: "Hide Menu";
+}
+
+.about-menu-details:not([open]) .about-menu-summary::before {
+  content: "Show Menu";
+}
+
+/* TOC toggle text */
+.about-toc-summary::before {
+  content: "Hide Table of Contents";
+}
+
+.about-toc-details:not([open]) .about-toc-summary::before {
+  content: "Show Table of Contents";
+}
+
 .about-page__content {
   font-family: var(--font-sans);
   font-size: 22px;
   line-height: 36px;
   color: #1a1b25;
   min-width: 0;
+}
+
+.about-page__content h1,
+.about-page__content h2,
+.about-page__content h3,
+.about-page__content h4,
+.about-page__content h5,
+.about-page__content h6 {
+  scroll-margin-top: calc(var(--navbar-height) + 1.5rem);
 }
 
 .about-page__content h1 {
@@ -890,9 +994,8 @@ body {
 
 /* Responsive adjustments for about section */
 @media (max-width: 768px) {
-  .about-nav__list {
-    flex-wrap: wrap;
-    gap: 1rem;
+  .about-nav.canopy-sub-navigation {
+    margin-bottom: 1rem;
   }
 
   .about-index {

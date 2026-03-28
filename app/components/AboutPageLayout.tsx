@@ -1,20 +1,26 @@
-import AboutNav from "./AboutNav";
+import { SubNavigation, ContentNavigation, ContentNavigationScript } from "@canopy-iiif/app/ui/server";
 
 interface AboutPageLayoutProps {
   children: React.ReactNode;
-  currentPage?: string;
 }
 
-export default function AboutPageLayout({
-  children,
-  currentPage = "constitution",
-}: AboutPageLayoutProps) {
+export default function AboutPageLayout({ children }: AboutPageLayoutProps) {
   return (
-    <div className="about-page">
-      <aside className="about-page__sidebar">
-        <AboutNav currentPage={currentPage} />
-      </aside>
-      <main className="about-page__content">{children}</main>
-    </div>
+    <>
+      <ContentNavigationScript />
+      <div className="about-page">
+        <aside className="about-page__sidebar">
+          <details className="about-menu-details" open>
+            <summary className="about-menu-summary" />
+            <SubNavigation className="about-nav" />
+          </details>
+          <details className="about-toc-details" open>
+            <summary className="about-toc-summary" />
+            <ContentNavigation className="about-content-nav" />
+          </details>
+        </aside>
+        <main className="about-page__content">{children}</main>
+      </div>
+    </>
   );
 }

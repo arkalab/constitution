@@ -8,7 +8,6 @@ export const components = {
   HeroSection: "./HeroSection.tsx",
   NavBar: "./NavBar.tsx",
   FooterSection: "./FooterSection.tsx",
-  AboutNav: "./AboutNav.tsx",
   AboutLayout: "./AboutLayout.tsx",
   AboutPageLayout: "./AboutPageLayout.tsx",
   SectionTitle: "./SectionTitle.tsx",

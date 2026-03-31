@@ -15,6 +15,9 @@ export const components = {
   SectionCTA: "./SectionCTA.tsx",
   SectionFeaturedImage: "./SectionFeaturedImage.tsx",
   SectionBody: "./SectionBody.tsx",
+  WorkDetailLayout: "./WorkDetailLayout.tsx",
+  WorkDetailScript: "./WorkDetailScript.tsx",
+  WorkMetadataPanel: "./WorkMetadataPanel.tsx",
 };
  
 // Map browser-only components to their source files; the builder bundles

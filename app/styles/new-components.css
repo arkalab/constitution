@@ -1042,3 +1042,299 @@ svg.canopy-nav-tree__toggle-icon {
     line-height: 30px;
   }
 }
+
+/* ─── Work Detail Page ─── */
+
+/* Navbar inversion on work pages (hero behind navbar) */
+body.canopy-type-work {
+  padding-top: 0;
+}
+
+body.canopy-type-work .navbar-wrapper {
+  background: transparent;
+  transition: background-color 0.3s ease;
+}
+
+body.canopy-type-work .navbar-wrapper::after {
+  display: none;
+}
+
+body.canopy-type-work .navbar__link,
+body.canopy-type-work .navbar__link--logo {
+  color: #fff;
+  transition: color 0.3s ease;
+}
+
+body.canopy-type-work .navbar__link:hover,
+body.canopy-type-work .navbar__link--logo:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+body.canopy-type-work .navbar__search-icon {
+  filter: brightness(0) invert(1);
+  transition: filter 0.3s ease;
+}
+
+/* Navbar scrolled state — restore default appearance */
+body.canopy-type-work .navbar-wrapper--scrolled {
+  background: #f2efe8;
+}
+
+body.canopy-type-work .navbar-wrapper--scrolled::after {
+  display: block;
+}
+
+body.canopy-type-work .navbar-wrapper--scrolled .navbar__link,
+body.canopy-type-work .navbar-wrapper--scrolled .navbar__link--logo {
+  color: #1a1b25;
+}
+
+body.canopy-type-work .navbar-wrapper--scrolled .navbar__link:hover,
+body.canopy-type-work .navbar-wrapper--scrolled .navbar__link--logo:hover {
+  color: #5f6650;
+}
+
+body.canopy-type-work .navbar-wrapper--scrolled .navbar__search-icon {
+  filter: none;
+}
+
+/* Hero Section */
+.work-detail__hero {
+  width: 100%;
+  height: 450px;
+  overflow: hidden;
+}
+
+.work-detail__hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Content — overlaps hero by ~30% */
+.work-detail__content {
+  display: flex;
+  gap: 24px;
+  max-width: var(--max-width-container);
+  margin: -135px auto 0;
+  padding-inline: 28px;
+  padding-bottom: 80px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Metadata Sidebar */
+.work-detail__metadata {
+  box-sizing: border-box;
+  flex: 1;
+  min-width: 0;
+  background: #fff;
+  border-radius: 15px !important;
+  padding: 24px;
+  position: sticky;
+  top: calc(var(--navbar-height) + 2rem);
+  align-self: flex-start;
+}
+
+/* ─── Work Metadata Panel (wmp) ─── */
+.wmp {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.wmp__title {
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: 34px;
+  color: #1a1b25;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.wmp__description {
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: 20px;
+  color: #1a1b25;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.wmp__manifest {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.wmp__manifest-label {
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: 20px;
+  color: #1a1b25;
+}
+
+.wmp__manifest-link {
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: 20px;
+  color: #5f6650;
+  word-break: break-all;
+  text-decoration: none;
+}
+
+.wmp__manifest-link:hover {
+  text-decoration: underline;
+}
+
+.wmp__row {
+  display: grid;
+  gap: 16px;
+}
+
+.wmp__row--2col {
+  grid-template-columns: 1fr 2.5fr;
+}
+
+.wmp__row--3col {
+  grid-template-columns: 1fr 1.25fr 1.25fr;
+}
+
+.wmp__field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.wmp__label {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 20px;
+  color: #5f6650;
+  text-transform: capitalize;
+}
+
+.wmp__value {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 20px;
+  color: #1a1b25;
+  line-height: 1.4;
+}
+
+.wmp__value a {
+  color: #1a1b25;
+  text-decoration: none;
+}
+
+.wmp__value a:hover {
+  text-decoration: underline;
+}
+
+/* References rendered inside the panel */
+.wmp__references {
+  margin: 0;
+  padding: 0;
+}
+
+.wmp__references .references__group {
+  gap: 4px;
+  padding: 0;
+}
+
+.wmp__references dt {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 20px;
+  color: #5f6650;
+  text-transform: capitalize;
+}
+
+.wmp__references dd,
+.wmp__references .references__item {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 20px;
+  margin: 0;
+}
+
+.wmp__references .references__item a {
+  color: #5f6650;
+  text-decoration: none;
+}
+
+.wmp__references .references__item a:hover {
+  text-decoration: underline;
+}
+
+/* Viewer Column */
+.work-detail__viewer-column {
+  box-sizing: border-box;
+  flex: 1;
+  min-width: 0;
+}
+
+.work-detail__viewer {
+  border-radius: 10px;
+  overflow: hidden;
+  min-height: 600px;
+  background: var(--color-gray-200, #e2e8f0);
+}
+
+.work-detail__related {
+  margin-top: 48px;
+}
+
+.work-detail__related h2 {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 700;
+  color: rgba(95, 102, 80, 1);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+/* Responsive — Work Detail */
+@media (max-width: 768px) {
+  .work-detail__hero {
+    height: 320px;
+  }
+
+  .work-detail__content {
+    flex-direction: column;
+    margin-top: -80px;
+    padding-inline: 16px;
+    gap: 20px;
+  }
+
+  .work-detail__metadata {
+    min-width: unset;
+    position: static;
+  }
+
+  .work-detail__viewer {
+    min-height: 400px;
+  }
+
+  .wmp__title {
+    font-size: 32px;
+  }
+
+  .wmp__description,
+  .wmp__manifest-label,
+  .wmp__manifest-link {
+    font-size: 20px;
+  }
+
+  .wmp__label,
+  .wmp__value,
+  .wmp__references dt,
+  .wmp__references dd {
+    font-size: 18px;
+  }
+
+  .wmp__row--2col,
+  .wmp__row--3col {
+    grid-template-columns: 1fr;
+  }
+}

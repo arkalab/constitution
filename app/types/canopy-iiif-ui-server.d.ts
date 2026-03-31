@@ -23,4 +23,30 @@ declare module "@canopy-iiif/app/ui/server" {
   }): ReactElement | null;
 
   export function ContentNavigationScript(): ReactElement;
+
+  export function Label(props: {
+    manifest?: any;
+    as?: string;
+    className?: string;
+  }): ReactElement | null;
+
+  export function Summary(props: {
+    manifest?: any;
+    as?: string;
+    className?: string;
+  }): ReactElement | null;
+
+  export function Metadata(props: {
+    manifest?: any;
+    className?: string;
+  }): ReactElement | null;
+
+  export function RequiredStatement(props: {
+    manifest?: any;
+    className?: string;
+  }): ReactElement | null;
+
+  export function References(props: {
+    className?: string;
+  }): ReactElement | null;
 }

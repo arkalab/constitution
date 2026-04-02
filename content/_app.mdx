@@ -1,10 +1,10 @@
-import {Meta, Stylesheet} from "@canopy-iiif/app/head";
-import {CanopyHeader, CanopyFooter} from "@canopy-iiif/app/ui";
+import { Meta, Stylesheet } from "@canopy-iiif/app/head";
+import { CanopyHeader, CanopyFooter } from "@canopy-iiif/app/ui";
 
 export function Head() {
   return (
     <>
-      <Meta siteTitle="Chiha Constitutional Papers" />
+      <Meta siteTitle="Michel Chiha's Constitutional Papers" />
       <Stylesheet />
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link
@@ -16,25 +16,30 @@ export function Head() {
         href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..600,50,0..1;1,9..144,300..600,50,0..1&display=swap"
         rel="stylesheet"
       />
-      <link 
+      <link
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet"
+      />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap"
+        rel="stylesheet"
+      />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&display=swap"
+        rel="stylesheet"
+      />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap"
         rel="stylesheet"
       />
     </>
   );
 }
 
-export function App({children}) {
+export function App({ children }) {
   return (
     <>
-      <CanopyHeader
-        title="Michel Chiha's Constitutional Papers"
-        logo={Logo}
-      />
       <main>{children}</main>
-      <CanopyFooter>
-        <p>Copyright 2025 Michel Chiha Foundation, MIT License. A Canopy IIIF Project.</p>
-      </CanopyFooter>
     </>
   );
 }

@@ -1,0 +1,9 @@
+navigation:
+  - href: /about
+    label: About
+  - href: /about/constitution
+    label: Constitution
+  - href: /about/document-guide
+    label: Papers
+  - href: /about/z-credits
+    label: Credits

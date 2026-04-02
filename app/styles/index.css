@@ -12,14 +12,4 @@
   max-width: 1300px;
 }
 
-@layer base {
-  html {
-    font-size: 110%;
-    font-weight: 300;
-  }
-
-  body {
-    background: var(--color-gray-50);
-    color: var(--color-gray-900);
-  }
-}
+@layer base {}

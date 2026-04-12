@@ -22,9 +22,9 @@ export default function FooterSection() {
           <li className="footer__item">Contact</li>
         </ul>
         <ul className="footer__language">
-          <li className="footer__language-item">EN</li>
-          <li className="footer__language-item">FR</li>
-          <li className="footer__language-item">AR</li>
+          <li className="footer__language-item"><a href="/" className="footer__language-link">EN</a></li>
+          <li className="footer__language-item"><a href="/fr/" className="footer__language-link">FR</a></li>
+          <li className="footer__language-item"><a href="/ar/" className="footer__language-link">AR</a></li>
         </ul>
         <img
           src="/footer_signature.png"

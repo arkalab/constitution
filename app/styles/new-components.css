@@ -77,6 +77,78 @@ body {
   text-decoration: none;
 }
 
+/* ─── Language Switcher ─── */
+
+.lang-switcher {
+  position: relative;
+}
+
+.lang-switcher__summary {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #1a1b25;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 100%;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.lang-switcher__summary::-webkit-details-marker {
+  display: none;
+}
+
+.lang-switcher__summary::marker {
+  display: none;
+}
+
+.lang-switcher__summary:hover,
+.lang-switcher[open] .lang-switcher__summary {
+  color: #5f6650;
+}
+
+.lang-switcher__arrow {
+  font-size: 16px;
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.lang-switcher[open] .lang-switcher__arrow {
+  transform: rotate(180deg);
+}
+
+.lang-switcher__dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 12px);
+  background: #f2efe8;
+  border-top: 1px solid rgba(26, 27, 37, 0.1);
+  padding: 6px 0;
+  min-width: 48px;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  list-style: none;
+  margin: 0;
+}
+
+.lang-switcher__option {
+  color: #1a1b25;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 100%;
+  text-decoration: none;
+  display: block;
+  padding: 4px 16px;
+  text-align: center;
+}
+
+.lang-switcher__option:hover {
+  color: #5f6650;
+}
+
 .navbar__link--logo {
   color: #1a1b25;
   font-family: var(--font-logo);

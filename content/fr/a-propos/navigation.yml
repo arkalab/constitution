@@ -1,0 +1,9 @@
+navigation:
+  - href: /fr/a-propos
+    label: À propos
+  - href: /fr/a-propos/constitution
+    label: Constitution
+  - href: /fr/a-propos/guide-documentaire
+    label: Papiers
+  - href: /fr/a-propos/z-credits
+    label: Crédits

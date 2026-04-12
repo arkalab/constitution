@@ -4,13 +4,14 @@ interface NavBarProps {
   lang?: Lang;
 }
 
-const NAV_LINKS: Record<Lang, { about: { label: string; href: string }; papers: { label: string; href: string }; timeline: { label: string; href: string }; home: string; search: string }> = {
+const NAV_LINKS: Record<Lang, { about: { label: string; href: string }; papers: { label: string; href: string }; timeline: { label: string; href: string }; home: string; search: string; searchPlaceholder: string }> = {
   en: {
     home: "/",
     about: { label: "About", href: "/about" },
     papers: { label: "Papers", href: "/search" },
     timeline: { label: "Timeline", href: "/timeline" },
     search: "/search",
+    searchPlaceholder: "Search...",
   },
   fr: {
     home: "/fr/",
@@ -18,6 +19,7 @@ const NAV_LINKS: Record<Lang, { about: { label: string; href: string }; papers: 
     papers: { label: "Papiers", href: "/fr/recherche" },
     timeline: { label: "Chronologie", href: "/fr/chronologie" },
     search: "/fr/recherche",
+    searchPlaceholder: "Rechercher...",
   },
   ar: {
     home: "/ar/",
@@ -25,6 +27,7 @@ const NAV_LINKS: Record<Lang, { about: { label: string; href: string }; papers: 
     papers: { label: "Papers", href: "/ar/search" },
     timeline: { label: "Timeline", href: "/ar/timeline" },
     search: "/ar/search",
+    searchPlaceholder: "بحث...",
   },
 };
 
@@ -90,6 +93,7 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
       fr: { '/about': 'À propos', '/search': 'Papiers', '/timeline': 'Chronologie' },
       ar: { '/about': 'About', '/search': 'Papers', '/timeline': 'Timeline' },
     };
+    var navPlaceholder = { fr: 'Rechercher...', ar: 'بحث...' };
     var map = navLinkMap[lang];
     var labelMap = navLabelMap[lang];
     if (map) {
@@ -99,6 +103,11 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
         if (h && map[h]) el.setAttribute('href', map[h]);
         if (h && labelMap && labelMap[h]) el.textContent = labelMap[h];
       });
+    }
+    var placeholder = navPlaceholder[lang];
+    if (placeholder) {
+      var searchEl = document.querySelector('.navbar__search-input');
+      if (searchEl) searchEl.setAttribute('placeholder', placeholder);
     }
   }
 
@@ -274,7 +283,7 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
             type="search"
             className="navbar__search-input"
             aria-label="Search"
-            placeholder="Search..."
+            placeholder={nav.searchPlaceholder}
           />
           <div className="navbar__search-results" hidden />
         </div>

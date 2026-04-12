@@ -1082,6 +1082,22 @@ svg.canopy-nav-tree__toggle-icon {
   content: "Show Table of Contents";
 }
 
+:lang(fr) .about-menu-summary::before {
+  content: "Masquer le menu";
+}
+
+:lang(fr) .about-menu-details:not([open]) .about-menu-summary::before {
+  content: "Afficher le menu";
+}
+
+:lang(fr) .about-toc-summary::before {
+  content: "Masquer la table des matières";
+}
+
+:lang(fr) .about-toc-details:not([open]) .about-toc-summary::before {
+  content: "Afficher la table des matières";
+}
+
 .about-page__content {
   font-family: var(--font-sans);
   font-size: 22px;
@@ -1330,6 +1346,24 @@ body.canopy-type-work .navbar-wrapper:not(.navbar-wrapper--scrolled) .navbar__se
 
 body.canopy-type-work .navbar-wrapper:not(.navbar-wrapper--scrolled) .navbar__search-input::-webkit-search-cancel-button {
   filter: brightness(0) invert(1) opacity(0.7);
+}
+
+/* ─── FR À propos pages: sidebar matches EN About layout ─── */
+body.fr-about-page .canopy-nav-tree__item[data-depth="-1"] > .canopy-nav-tree__row {
+  display: none;
+}
+body.fr-about-page .canopy-nav-tree__item[data-depth="0"]:not([data-canopy-nav-item="true"]) {
+  display: none;
+}
+body.fr-about-page .canopy-nav-tree__toggle {
+  display: none;
+}
+body.fr-about-page .canopy-nav-tree__children[hidden] {
+  display: block !important;
+}
+body.fr-about-page .canopy-nav-tree__list--nested {
+  padding-left: 0 !important;
+  border-left: none !important;
 }
 
 /* Hero Section */

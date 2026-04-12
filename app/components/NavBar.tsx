@@ -100,6 +100,35 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
       details.removeAttribute('open');
     }
   });
+
+  var navbar = document.querySelector('.navbar');
+  var searchInput = document.querySelector('.navbar__search-input');
+  var searchToggle = document.querySelector('.navbar__search-toggle');
+
+  if (searchToggle && navbar && searchInput) {
+    searchToggle.addEventListener('click', function () {
+      var isOpen = navbar.classList.toggle('navbar--search-open');
+      if (isOpen) {
+        searchInput.focus();
+      } else {
+        searchInput.blur();
+      }
+    });
+
+    document.addEventListener('click', function (e) {
+      if (navbar.classList.contains('navbar--search-open') &&
+          !navbar.contains(e.target)) {
+        navbar.classList.remove('navbar--search-open');
+      }
+    });
+
+    searchInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        navbar.classList.remove('navbar--search-open');
+        searchToggle.focus();
+      }
+    });
+  }
 })();`;
 
   return (
@@ -108,10 +137,16 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
         <div className="navbar__title">
           <a href={nav.home} className="navbar__link--logo">Michel Chiha's <i>Constitutional Papers</i></a>
         </div>
+        <input
+          type="search"
+          className="navbar__search-input"
+          aria-label="Search"
+          placeholder="Search..."
+        />
         <div className="navbar__links">
-          <a href={nav.search} className="navbar__search-link" aria-label="Search">
-            <img src="/navbar_search_icon.png" alt="Search" className="navbar__search-icon" />
-          </a>
+          <button type="button" className="navbar__search-toggle" aria-label="Toggle search">
+            <img src="/navbar_search_icon.svg" alt="Search" className="navbar__search-icon" />
+          </button>
           <div className="navbar__links-list">
             <a href={nav.about.href} className="navbar__link">{nav.about.label}</a>
             <a href={nav.papers.href} className="navbar__link">{nav.papers.label}</a>

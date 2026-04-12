@@ -1,4 +1,11 @@
-export default function HeroSection() {
+interface HeroSectionProps {
+  quote?: string;
+}
+
+const DEFAULT_QUOTE =
+  "Plus tard, quand nous serons partis pour le royaume des ombres, si nous avons bien rempli notre tâche, si quelque chose doit demeurer de tant de pages quotidiennes, quelque «écolier» attentif, quelque historien aux veilles studieuses le découvrira.";
+
+export default function HeroSection({ quote = DEFAULT_QUOTE }: HeroSectionProps) {
   return (
     <section className="hero">
       <div className="hero__inner">
@@ -9,12 +16,7 @@ export default function HeroSection() {
             className="hero__image"
           />
         </div>
-        <blockquote className="hero__quote">
-          Plus tard, quand nous serons partis pour le royaume des ombres,
-          si nous avons bien rempli notre tâche, si quelque chose doit demeurer
-          de tant de pages quotidiennes, quelque «écolier» attentif, quelque
-          historien aux veilles studieuses le découvrira.
-        </blockquote>
+        <blockquote className="hero__quote" dir="auto">{quote}</blockquote>
       </div>
     </section>
   );

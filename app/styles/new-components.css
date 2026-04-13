@@ -1015,6 +1015,7 @@ svg.canopy-nav-tree__toggle-icon {
   margin-block: 66px;
   padding-inline: 2rem;
   gap: 3rem;
+  min-height: calc(100vh - var(--navbar-height) - 132px);
 }
 
 .about-page__sidebar {

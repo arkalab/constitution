@@ -1,3 +1,5 @@
+import type { SearchI18n } from "./SearchPage.client";
+
 interface PageRecord {
   id: string;
   title: string;
@@ -8,6 +10,7 @@ interface PageRecord {
 
 interface PageListProps {
   records: PageRecord[];
+  i18n: SearchI18n;
 }
 
 function truncateText(text: string, maxLength: number = 380): string {
@@ -15,11 +18,11 @@ function truncateText(text: string, maxLength: number = 380): string {
   return text.slice(0, maxLength).trim() + "…";
 }
 
-export default function PageList({ records }: PageListProps) {
+export default function PageList({ records, i18n }: PageListProps) {
   if (records.length === 0) {
     return (
       <div className="page-list">
-        <p className="document-list__state">No pages found.</p>
+        <p className="document-list__state">{i18n.noPages}</p>
       </div>
     );
   }

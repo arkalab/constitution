@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { SearchI18n } from "./SearchPage.client";
 
 interface SearchRecord {
   id: string;
@@ -13,6 +14,7 @@ interface SearchRecord {
 interface DocumentListProps {
   records: SearchRecord[];
   loading: boolean;
+  i18n: SearchI18n;
 }
 
 function DocumentCard({ record }: { record: SearchRecord }) {
@@ -50,11 +52,11 @@ function DocumentCard({ record }: { record: SearchRecord }) {
   );
 }
 
-export default function DocumentList({ records, loading }: DocumentListProps) {
-  if (loading) return <div className="document-list__state">Loading…</div>;
+export default function DocumentList({ records, loading, i18n }: DocumentListProps) {
+  if (loading) return <div className="document-list__state">{i18n.loading}</div>;
 
   if (records.length === 0) {
-    return <div className="document-list__state">No documents found.</div>;
+    return <div className="document-list__state">{i18n.noDocuments}</div>;
   }
 
   return (

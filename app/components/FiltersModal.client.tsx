@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import type { SearchI18n } from "./SearchPage.client";
 
 interface FacetValue {
   slug: string;
@@ -23,6 +24,7 @@ interface FiltersModalProps {
   onClose: () => void;
   isOpen: boolean;
   onClearAll: () => void;
+  i18n: SearchI18n;
 }
 
 export default function FiltersModal({
@@ -32,6 +34,7 @@ export default function FiltersModal({
   onClose,
   isOpen,
   onClearAll,
+  i18n,
 }: FiltersModalProps) {
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -67,9 +70,9 @@ export default function FiltersModal({
 
   const activeFilterCount = Object.values(activeFilters).flat().length;
   const hasActiveFilters = activeFilterCount > 0;
-  const filterText = activeFilterCount === 0 
-    ? "Refine results by metadata"
-    : `${activeFilterCount} filter${activeFilterCount > 1 ? 's' : ''} selected`;
+  const filterText = activeFilterCount === 0
+    ? i18n.refineResults
+    : i18n.filtersSelected(activeFilterCount);
 
   return (
     <div className="filters-modal-overlay" onClick={onClose}>
@@ -94,7 +97,7 @@ export default function FiltersModal({
               onClick={onClearAll}
               style={{ visibility: hasActiveFilters ? 'visible' : 'hidden' }}
             >
-              Clear All
+              {i18n.clearAll}
             </button>
           </div>
         </div>

@@ -5,6 +5,79 @@ import DocumentList from "./DocumentList.client";
 import PageList from "./PageList";
 import FiltersModal from "./FiltersModal.client";
 
+type SearchLang = "en" | "fr" | "ar";
+
+export interface SearchI18n {
+  tabPapers: string;
+  tabPages: string;
+  filters: string;
+  showing: string;
+  of: string;
+  item: string;
+  items: string;
+  loading: string;
+  noDocuments: string;
+  noPages: string;
+  refineResults: string;
+  filtersSelected: (n: number) => string;
+  clearAll: string;
+}
+
+const SEARCH_I18N: Record<SearchLang, SearchI18n> = {
+  en: {
+    tabPapers: "Papers",
+    tabPages: "Pages",
+    filters: "Filters",
+    showing: "Showing",
+    of: "of",
+    item: "item",
+    items: "items",
+    loading: "Loading…",
+    noDocuments: "No documents found.",
+    noPages: "No pages found.",
+    refineResults: "Refine results by metadata",
+    filtersSelected: (n) => `${n} filter${n > 1 ? "s" : ""} selected`,
+    clearAll: "Clear All",
+  },
+  fr: {
+    tabPapers: "Papiers",
+    tabPages: "Pages",
+    filters: "Filtres",
+    showing: "Affichage de",
+    of: "sur",
+    item: "\u00e9l\u00e9ment",
+    items: "\u00e9l\u00e9ments",
+    loading: "Chargement…",
+    noDocuments: "Aucun document trouv\u00e9.",
+    noPages: "Aucune page trouv\u00e9e.",
+    refineResults: "Affiner les r\u00e9sultats par m\u00e9tadonn\u00e9es",
+    filtersSelected: (n) => `${n} filtre${n > 1 ? "s" : ""} s\u00e9lectionn\u00e9${n > 1 ? "s" : ""}`,
+    clearAll: "Tout effacer",
+  },
+  ar: {
+    tabPapers: "Papers",
+    tabPages: "Pages",
+    filters: "Filters",
+    showing: "Showing",
+    of: "of",
+    item: "item",
+    items: "items",
+    loading: "Loading…",
+    noDocuments: "No documents found.",
+    noPages: "No pages found.",
+    refineResults: "Refine results by metadata",
+    filtersSelected: (n) => `${n} filter${n > 1 ? "s" : ""} selected`,
+    clearAll: "Clear All",
+  },
+};
+
+function getSearchLang(): SearchLang {
+  if (typeof window === "undefined") return "en";
+  const code = (window as unknown as Record<string, unknown>).CANOPY_LOCALE_CODE;
+  if (code === "fr" || code === "ar") return code;
+  return "en";
+}
+
 interface SearchRecord {
   id: string;
   type: string;
@@ -68,6 +141,7 @@ function parseFacetsData(
 }
 
 export default function SearchPage() {
+  const i18n = SEARCH_I18N[getSearchLang()];
   const [records, setRecords] = useState<SearchRecord[]>([]);
   const [activeTab, setActiveTab] = useState<"work" | "page">("work");
   const [loading, setLoading] = useState(true);
@@ -230,14 +304,15 @@ export default function SearchPage() {
           filteredPageCount={pageRecords.length}
           onOpenFilters={() => setIsFiltersOpen(true)}
           activeFilterCount={activeFilterCount}
+          i18n={i18n}
         />
-        <SearchSummaryCustom count={displayedRecords.length} totalCount={totalCount} />
+        <SearchSummaryCustom count={displayedRecords.length} totalCount={totalCount} i18n={i18n} />
       </div>
 
       {activeTab === "work" ? (
-        <DocumentList records={filteredWorkRecords} loading={loading} />
+        <DocumentList records={filteredWorkRecords} loading={loading} i18n={i18n} />
       ) : (
-        <PageList records={pageRecords} />
+        <PageList records={pageRecords} i18n={i18n} />
       )}
 
       <FiltersModal
@@ -247,6 +322,7 @@ export default function SearchPage() {
         onClose={() => setIsFiltersOpen(false)}
         isOpen={isFiltersOpen}
         onClearAll={handleClearAll}
+        i18n={i18n}
       />
     </>
   );

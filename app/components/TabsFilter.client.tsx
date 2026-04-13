@@ -1,3 +1,5 @@
+import type { SearchI18n } from "./SearchPage.client";
+
 interface TabsFilterProps {
   activeTab: "work" | "page";
   onTabChange: (tab: "work" | "page") => void;
@@ -5,6 +7,7 @@ interface TabsFilterProps {
   filteredPageCount: number;
   onOpenFilters: () => void;
   activeFilterCount: number;
+  i18n: SearchI18n;
 }
 
 export default function TabsFilter({
@@ -14,6 +17,7 @@ export default function TabsFilter({
   filteredPageCount,
   onOpenFilters,
   activeFilterCount,
+  i18n,
 }: TabsFilterProps) {
   return (
     <div className="tabs-filter">
@@ -24,7 +28,7 @@ export default function TabsFilter({
           }`}
           onClick={() => onTabChange("work")}
         >
-          Papers ({filteredWorkCount})
+          {i18n.tabPapers} ({filteredWorkCount})
         </button>
         <button
           className={`tabs-filter__button ${
@@ -32,14 +36,14 @@ export default function TabsFilter({
           }`}
           onClick={() => onTabChange("page")}
         >
-          Pages ({filteredPageCount})
+          {i18n.tabPages} ({filteredPageCount})
         </button>
       </div>
       <button
         className="tabs-filter__filters-button"
         onClick={onOpenFilters}
       >
-        Filters{activeFilterCount > 0 && ` (${activeFilterCount})`}
+        {i18n.filters}{activeFilterCount > 0 && ` (${activeFilterCount})`}
       </button>
     </div>
   );

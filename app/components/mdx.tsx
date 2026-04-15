@@ -9,7 +9,6 @@ export const components = {
   NavBar: "./NavBar.tsx",
   FooterSection: "./FooterSection.tsx",
   AboutLayout: "./AboutLayout.tsx",
-  AboutPageLayout: "./AboutPageLayout.tsx",
   SectionTitle: "./SectionTitle.tsx",
   SectionSubtitle: "./SectionSubtitle.tsx",
   SectionCTA: "./SectionCTA.tsx",

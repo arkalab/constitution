@@ -4,4 +4,7 @@
     __html: `document.body.classList.add('fr-about-page')`,
   }}
 />
-<div>{props.children}</div>
+
+<AboutLayout isIndex={props.page.isIndex}>{props.children}</AboutLayout>
+
+<FooterSection />

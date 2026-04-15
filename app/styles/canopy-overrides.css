@@ -1,0 +1,12 @@
+/* @layer properties {
+  :root,
+  :host { 
+    --canopy-radius-none: unset !important;
+    --canopy-shadow-none: unset !important;
+    }
+} */
+
+*, :before, :after {
+    border-radius: none !important;
+    box-shadow: none !important;
+}

@@ -123,6 +123,15 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
       var searchEl = document.querySelector('.navbar__search-input');
       if (searchEl) searchEl.setAttribute('placeholder', placeholder);
     }
+  } else if (BASE) {
+    // For English with a base path, prepend BASE to nav links
+    var allNavLinks = document.querySelectorAll('.navbar__link, .navbar__link--logo');
+    allNavLinks.forEach(function(el) {
+      var h = el.getAttribute('href');
+      if (h && h.charAt(0) === '/' && !h.startsWith(BASE)) {
+        el.setAttribute('href', BASE + h);
+      }
+    });
   }
 
   var options = document.querySelectorAll('.lang-switcher__option');
@@ -262,7 +271,8 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
       groups[type].forEach(function(rec) {
         var href = String(rec && rec.href || '#');
         var title = String(rec && rec.title || href);
-        html += '<a class="navbar__search-result" href="' + href + '">' + title + '</a>';
+        var fullHref = (href.charAt(0) === '/' && BASE) ? BASE + href : href;
+        html += '<a class="navbar__search-result" href="' + fullHref + '">' + title + '</a>';
       });
     });
     panel.innerHTML = html;

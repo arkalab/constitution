@@ -1,3 +1,4 @@
+import { withBasePath } from "@canopy-iiif/app/base-path";
 import type { SearchI18n } from "./SearchPage.client";
 
 interface PageRecord {
@@ -35,7 +36,7 @@ export default function PageList({ records, i18n }: PageListProps) {
           const truncated = truncateText(summaryText, 380);
 
           return (
-            <a key={record.id} href={record.href} className="page-list__item">
+            <a key={record.id} href={withBasePath(record.href)} className="page-list__item">
               <h3 className="page-list__title">{record.title}</h3>
               <span className="page-list__href">{record.href}</span>
               {truncated && <p className="page-list__summary">{truncated}</p>}

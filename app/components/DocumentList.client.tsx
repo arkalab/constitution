@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { withBasePath } from "@canopy-iiif/app/base-path";
 import type { SearchI18n } from "./SearchPage.client";
 
 interface SearchRecord {
@@ -23,7 +24,7 @@ function DocumentCard({ record }: { record: SearchRecord }) {
   return (
     <a
       key={record.id}
-      href={record.href}
+      href={withBasePath(record.href)}
       className="document-list__item"
     >
       <div

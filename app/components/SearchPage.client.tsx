@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import { readBasePath } from "@canopy-iiif/app/base-path";
 import TabsFilter from "./TabsFilter.client";
 import SearchSummaryCustom from "./SearchSummaryCustom";
 import DocumentList from "./DocumentList.client";
@@ -153,9 +154,7 @@ export default function SearchPage() {
 
   // Load data on mount
   useEffect(() => {
-    const base = typeof window !== "undefined" && (window as any).CANOPY_BASE_PATH
-      ? String((window as any).CANOPY_BASE_PATH).replace(/\/+$/, "")
-      : "";
+    const base = readBasePath();
     Promise.all([
       fetch(`${base}/api/search-records.json`).then((res) => res.json()),
       fetch(`${base}/api/search/facets.json`).then((res) => res.json()),

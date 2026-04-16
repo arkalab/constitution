@@ -34,6 +34,12 @@ const NAV_LINKS: Record<Lang, { about: { label: string; href: string }; papers: 
 export default function NavBar({ lang = "en" }: NavBarProps) {
   const nav = NAV_LINKS[lang];
   const script = `(function () {
+  var BASE = '';
+  try {
+    var raw = window.CANOPY_BASE_PATH ? String(window.CANOPY_BASE_PATH).replace(/[/]+$/, '') : '';
+    if (raw) BASE = raw;
+  } catch (_) {}
+
   var enRoutes = {
     '/': { fr: '/fr/', ar: '/ar/' },
     '/about': { fr: '/fr/a-propos', ar: '/ar/about' },
@@ -62,7 +68,12 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
     '/ar/timeline': '/timeline',
   };
 
-  var path = window.location.pathname;
+  // Strip base path prefix so route lookups work with app-relative paths
+  var fullPath = window.location.pathname;
+  var path = fullPath;
+  if (BASE && path.startsWith(BASE)) {
+    path = path.slice(BASE.length) || '/';
+  }
   var lang, enPath;
 
   if (path === '/fr' || path === '/fr/' || path.startsWith('/fr/')) {
@@ -100,8 +111,11 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
       var allNavLinks = document.querySelectorAll('.navbar__link, .navbar__link--logo');
       allNavLinks.forEach(function(el) {
         var h = el.getAttribute('href');
-        if (h && map[h]) el.setAttribute('href', map[h]);
-        if (h && labelMap && labelMap[h]) el.textContent = labelMap[h];
+        // Strip BASE prefix so we can look up the app-relative path
+        var appH = h;
+        if (BASE && h && h.startsWith(BASE)) appH = h.slice(BASE.length) || '/';
+        if (appH && map[appH]) el.setAttribute('href', BASE + map[appH]);
+        if (appH && labelMap && labelMap[appH]) el.textContent = labelMap[appH];
       });
     }
     var placeholder = navPlaceholder[lang];
@@ -121,7 +135,7 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
       var routes = enRoutes[enPath];
       href = (routes && routes[optLang]) ? routes[optLang] : (optLang === 'fr' ? '/fr/' : '/ar/');
     }
-    el.setAttribute('href', href);
+    el.setAttribute('href', BASE + href);
     if (optLang === lang) {
       el.parentElement.style.display = 'none';
     }
@@ -176,14 +190,9 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
 
   function loadRecords() {
     if (cachedRecords) return Promise.resolve(cachedRecords);
-    var base = '';
-    try {
-      var raw = window.CANOPY_BASE_PATH ? String(window.CANOPY_BASE_PATH).replace(/[/]+$/, '') : '';
-      base = raw;
-    } catch (_) {}
     return Promise.all([
-      fetch(base + '/api/search-index.json').then(function(r) { return r.ok ? r.json() : []; }).catch(function() { return []; }),
-      fetch(base + '/api/search-records.json').then(function(r) { return r.ok ? r.json() : []; }).catch(function() { return []; }),
+      fetch(BASE + '/api/search-index.json').then(function(r) { return r.ok ? r.json() : []; }).catch(function() { return []; }),
+      fetch(BASE + '/api/search-records.json').then(function(r) { return r.ok ? r.json() : []; }).catch(function() { return []; }),
     ]).then(function(results) {
       var indexRaw = results[0];
       var displayRaw = results[1];

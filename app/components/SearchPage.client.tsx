@@ -153,9 +153,12 @@ export default function SearchPage() {
 
   // Load data on mount
   useEffect(() => {
+    const base = typeof window !== "undefined" && (window as any).CANOPY_BASE_PATH
+      ? String((window as any).CANOPY_BASE_PATH).replace(/\/+$/, "")
+      : "";
     Promise.all([
-      fetch("/api/search-records.json").then((res) => res.json()),
-      fetch("/api/search/facets.json").then((res) => res.json()),
+      fetch(`${base}/api/search-records.json`).then((res) => res.json()),
+      fetch(`${base}/api/search/facets.json`).then((res) => res.json()),
     ])
       .then(([recordsData, facetsData]) => {
         setRecords(recordsData);

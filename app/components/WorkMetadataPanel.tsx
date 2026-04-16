@@ -122,13 +122,6 @@ export default function WorkMetadataPanel({
         <p className="wmp__description">{getStr(descriptionItem.value)}</p>
       )}
 
-      <div className="wmp__manifest">
-        <span className="wmp__manifest-label">IIIF Manifest</span>
-        <a href={manifest.id} className="wmp__manifest-link">
-          {manifest.id}
-        </a>
-      </div>
-
       {(creatorItem || contributorItem) && (
         <div className="wmp__row wmp__row--2col">
           {creatorItem && (
@@ -205,6 +198,13 @@ export default function WorkMetadataPanel({
           )}
         </div>
       )}
+
+      <div className="wmp__manifest">
+        <span className="wmp__manifest-label">IIIF Manifest</span>
+        <a href={manifest.id} className="wmp__manifest-link">
+          {manifest.id}
+        </a>
+      </div>
     </div>
   );
 }

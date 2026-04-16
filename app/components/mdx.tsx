@@ -21,6 +21,4 @@ export const components = {
  
 // Map browser-only components to their source files; the builder bundles
 // them separately and hydrates placeholders at runtime.
-export const clientComponents = {
-  SearchPage: "./SearchPage.client.tsx",
-};
+export const clientComponents = {};

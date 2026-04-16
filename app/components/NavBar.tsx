@@ -289,6 +289,22 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
       });
     });
   }
+
+  // Horizontal scroll with vertical wheel on search results
+  if (document.body.classList.contains('canopy-type-search')) {
+    var observer = new MutationObserver(function() {
+      var results = document.querySelector('#search-results');
+      if (results && !results.__hscroll) {
+        results.__hscroll = true;
+        results.addEventListener('wheel', function(e) {
+          if (results.scrollWidth <= results.clientWidth) return;
+          e.preventDefault();
+          results.scrollLeft += e.deltaY;
+        }, { passive: false });
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
 })();`;
 
   return (

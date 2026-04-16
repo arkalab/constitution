@@ -66,4 +66,3 @@ common:
     referenced_by: "Référencé par"
 routes:
   search: ar/search
-  works: ar/papers

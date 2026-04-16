@@ -27,7 +27,7 @@ common:
     breadcrumb: "Fil d'Ariane"
     home: "Accueil"
   types:
-    work: "Œuvres"
+    work: "Papiers"
     page: "Pages"
     docs: "Documents"
   statuses:
@@ -66,4 +66,3 @@ common:
     referenced_by: "Référencé par"
 routes:
   search: fr/recherche
-  works: fr/papiers

@@ -12,7 +12,7 @@ featured:
 search:
   results:
     work:
-      layout: grid
+      layout: list
       result: figure
     page:
       layout: list

@@ -27,6 +27,11 @@ body {
   pointer-events: none;
 }
 
+/* Hide navbar gradient when a modal is open (body overflow is locked) */
+body[style*="overflow: hidden"] .navbar-wrapper::after {
+  display: none;
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -383,93 +388,142 @@ body {
   color: #f2efe8;
 }
 
-/* ─── Search Page Header (tabs + summary) ─── */
+/* ─── Canopy Search Page Overrides ─── */
 
-.search-page__header {
+body.canopy-type-search {
+  overflow: hidden;
+  height: 100dvh;
+}
+
+body.canopy-type-search .canopy-search {
   max-width: var(--max-width-container);
   margin-inline: auto;
   padding-inline: 2rem;
 }
 
-/* ─── Tabs Filter ─── */
+/* ── Tabs ── */
 
-.tabs-filter {
+.canopy-search-tabs-wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-block: 80px 30px;
 }
 
-.tabs-filter__tabs {
+.canopy-search-tabs {
   display: flex;
+  gap: 0;
+  border: none;
+  padding: 0;
+  position: relative;
 }
 
-.tabs-filter__button {
+.canopy-search-tabs__highlight {
+  display: none;
+}
+
+.canopy-search-tabs button.canopy-search-tab {
+  position: relative;
   width: 224px;
   border: none;
-  border-bottom: 6px solid rgba(95, 102, 80, 0.15);
-  font-family: var(--font-title);
-  font-size: 28px;
+  border-radius: 0;
+  font: 400 28px/1.2 var(--font-title);
   color: #1a1b25;
-  background-color: #f2efe8;
+  background-color: transparent;
   cursor: pointer;
-  transition: all 0.5s ease;
-  text-decoration: none;
-  display: inline-block;
+  transition: color 0.5s ease;
   text-align: left;
+  padding: 0 0 8px 0;
+  justify-content: flex-start;
+  display: inline-flex;
+}
+
+/* Underline bar via pseudo-element */
+.canopy-search-tab::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  border-radius: 10px;
+  background-color: rgba(95, 102, 80, 0.15);
+  transition: background-color 0.5s ease;
+}
+
+.canopy-search-tabs button.canopy-search-tab:hover {
+  color: #1a1b25;
+}
+
+.canopy-search-tabs button.canopy-search-tab.is-active {
+  color: #1a1b25;
+}
+
+.canopy-search-tabs button.canopy-search-tab.is-active::after {
+  background-color: #5f6650;
+}
+
+/* ── Filters button ── */
+
+button.canopy-search-tabs__filters-button {
+  font: 400 28px/1.2 var(--font-title);
+  color: #1a1b25;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  border: none;
+  background: none;
   padding: 0;
 }
 
-.tabs-filter__button:hover {
+button.canopy-search-tabs__filters-button:hover {
   color: #5f6650;
 }
 
-.tabs-filter__button--active {
-  border-color: #5f6650;
+/* Fix Canopy bug: filtersLabel prop default prevents i18n lookup */
+button.canopy-search-tabs__filters-button > span {
+  font-size: 0;
 }
 
-.tabs-filter__button--active:hover {
-  color: #5f6650;
-}
-
-.tabs-filter__filters-button {
-  font-family: var(--font-title);
+button.canopy-search-tabs__filters-button > span::before {
   font-size: 28px;
-  color: #1a1b25;
-  cursor: pointer;
-  transition: all 0.2s ease;
 }
 
-.tabs-filter__filters-button span {
-  font-family: var(--font-title);
+:lang(en) button.canopy-search-tabs__filters-button > span::before {
+  content: "Filters";
+}
+
+:lang(fr) button.canopy-search-tabs__filters-button > span::before {
+  content: "Filtres";
+}
+
+:lang(ar) button.canopy-search-tabs__filters-button > span::before {
+  content: "Filters";
+}
+
+.canopy-search-tabs__filters-count {
   font-size: 10px;
-  color: #1a1b25;
-  cursor: pointer;
-  transition: all 0.2s ease;
 }
 
-.tabs-filter__filters-button:hover {
-  color: #5f6650;
-}
+/* ── Summary ── */
 
-/* ─── Search Summary Custom ─── */
-
-.search-summary-custom {
+[data-canopy-search-summary] .text-sm {
   font-family: var(--font-sans);
   font-size: 12px;
   color: #1a1b25;
   margin-bottom: 15px;
 }
 
-/* ─── Document List (horizontal cards for Works) ─── */
+/* ── Work Results (full-width horizontal scroll cards) ── */
 
-.document-list {
-  margin-inline: auto;
+body.canopy-type-search [data-canopy-search-results] {
+  /* Break out of the container to span full page width */
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
   padding-left: 24px;
   margin-bottom: 100px;
 }
 
-.document-list__track {
+body.canopy-type-search #search-results.space-y-6 {
   display: flex;
   gap: 1.5rem;
   overflow-x: auto;
@@ -478,18 +532,23 @@ body {
   padding-top: 5px;
 }
 
-.document-list__track::-webkit-scrollbar {
+body.canopy-type-search #search-results.space-y-6::-webkit-scrollbar {
   display: none;
 }
 
-.document-list__track {
+body.canopy-type-search #search-results.space-y-6 {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
-.document-list__item {
+body.canopy-type-search .search-result.work {
   flex-shrink: 0;
   scroll-snap-align: start;
+  width: 312px;
+  margin: 0;
+}
+
+body.canopy-type-search .search-result.work .canopy-card {
   width: 312px;
   background-color: white;
   border-radius: 10px;
@@ -499,17 +558,15 @@ body {
   display: flex;
   flex-direction: column;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.document-list__item:hover {
+body.canopy-type-search .search-result.work .canopy-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
 }
 
-.document-list__media {
+body.canopy-type-search .search-result.work .canopy-card-media {
   width: 292px;
   height: 353px;
   border-radius: 5px;
@@ -520,14 +577,15 @@ body {
   justify-content: center;
 }
 
-.document-list__thumbnail {
+body.canopy-type-search .search-result.work .canopy-card-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-.document-list__title {
+body.canopy-type-search .search-result.work .canopy-card h4,
+body.canopy-type-search .search-result.work .canopy-card p {
   font-family: var(--font-title);
   font-size: 14px;
   color: #1a1b25;
@@ -536,51 +594,51 @@ body {
   min-height: calc(1.4 * 14px * 4 + 36px);
 }
 
-.document-list__state {
-  min-height: 50vh;
-  padding: 2rem;
-  font-family: var(--font-sans);
-  color: #1a1b25;
-  max-width: var(--max-width-container);
-  margin-inline: auto;
+/* ── Page Results (vertical list) ── */
+
+/* Reset the full-width breakout when showing page results */
+body.canopy-type-search [data-canopy-search-results]:has(.search-result.page) {
+  width: auto;
+  margin-left: 0;
+  padding-left: 0;
 }
 
-/* ─── Page List (vertical list for Pages) ─── */
-
-.page-list {
-  max-width: var(--max-width-container);
-  margin-inline: auto;
-  padding-inline: 2rem;
-  padding-block: 45px 85px;
-}
-
-.page-list__items {
+body.canopy-type-search #search-results:has(.search-result.page) {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   max-width: 648px;
+  overflow-x: visible;
+  scroll-snap-type: none;
+  padding-left: 0;
+  padding-block: 45px 85px;
 }
 
-.page-list__item {
+body.canopy-type-search .search-result.page {
+  width: auto;
+  flex-shrink: initial;
+}
+
+body.canopy-type-search .canopy-article-card {
   text-decoration: none;
   color: inherit;
   display: block;
   border-bottom: 2px solid rgba(95, 102, 80, 0);
-  transition: box-shadow 0.2s ease;
+  transition: border-color 0.2s ease;
 }
 
-.page-list__item:hover {
-  border-bottom: 2px solid rgba(95, 102, 80, 0.15);
+body.canopy-type-search .canopy-article-card:hover {
+  border-bottom-color: rgba(95, 102, 80, 0.15);
 }
 
-.page-list__title {
+body.canopy-type-search .canopy-article-card h3 {
   font-family: var(--font-title);
   font-size: 28px;
   color: #5f6650;
   margin-block: 0;
 }
 
-.page-list__href {
+body.canopy-type-search .canopy-article-card__url {
   font-family: var(--font-sans);
   font-size: 15px;
   font-weight: bold;
@@ -589,203 +647,199 @@ body {
   margin-bottom: 8px;
 }
 
-.page-list__summary {
+body.canopy-type-search .canopy-article-card__snippet {
   font-family: var(--font-sans);
   font-size: 15px;
   color: #1a1b25;
   margin: 0;
 }
 
-/* ─── Skeleton Loader ─── */
-
-@keyframes shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
+body.canopy-type-search .canopy-article-card__meta {
+  display: none;
 }
 
-.document-list__media--loading {
-  background: linear-gradient(90deg, #e8e4db 25%, #f2efe8 50%, #e8e4db 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
+/* ── No results ── */
+
+body.canopy-type-search #search-results + .text-slate-600,
+body.canopy-type-search [data-canopy-search-results] > .text-slate-600 {
+  min-height: 50vh;
+  padding: 2rem;
+  font-family: var(--font-sans);
+  color: #1a1b25;
 }
 
-.document-list__thumbnail--loading {
-  opacity: 0;
-}
+/* ── Filters Modal ── */
 
-.document-list__thumbnail--loaded {
-  opacity: 1;
-  transition: opacity 0.3s ease-in;
-}
-
-/* ─── Filters Modal ─── */
-
-.filters-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
+/* Override drawer layout → centered modal */
+#canopy-modal-filters.canopy-modal--filters {
   justify-content: center;
-  animation: fadeIn 0.2s ease;
+  align-items: center;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 200;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.filters-modal {
+#canopy-modal-filters .canopy-modal__panel {
   background: #f2efe8;
   border-radius: 10px;
   width: 500px;
   max-width: 80vw;
   max-height: 80vh;
+  height: auto;
   overflow-y: auto;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  animation: slideIn 0.3s ease;
 }
 
-@keyframes slideIn {
-  from {
-    transform: scale(0.95) translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1) translateY(0);
-    opacity: 1;
-  }
+/* Header: brand + close */
+#canopy-modal-filters .canopy-modal__close {
+  color: #5a5a5a;
+  background: none;
+  top: 1.5rem;
+  right: 1.5rem;
 }
 
-.filters-modal__header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: #f2efe8;
-  padding: 2rem;
+#canopy-modal-filters .canopy-modal__close:hover {
+  color: #1a1b25;
+}
+
+#canopy-modal-filters .canopy-modal__brand {
   margin-bottom: 2rem;
-  border-bottom: 1px solid rgba(95, 102, 80, 0.15);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+  padding-right: 3rem;
 }
 
-.filters-modal__header-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 40px;
-}
-
-.filters-modal__title {
-  font-family: var(--font-serif);
-  font-size: 20px;
+#canopy-modal-filters .canopy-modal__brand-link {
+  font-size: 0;
   color: #5f6650;
-  margin: 0;
+  text-decoration: none;
+  line-height: 1.3;
 }
 
-.filters-modal__title span {
+#canopy-modal-filters .canopy-modal__brand-link span {
+  display: none;
+}
+
+/* Replace "Site title" with the actual two-font title */
+#canopy-modal-filters .canopy-modal__brand-link::before {
+  content: "Michel Chiha's ";
+  font-family: var(--font-logo);
+  font-size: 20px;
+}
+
+#canopy-modal-filters .canopy-modal__brand-link::after {
+  content: "Constitutional Papers";
+  font-family: var(--font-serif);
   font-style: italic;
+  font-size: 20px;
 }
 
-.filters-modal__header-status {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
+/* Body */
+#canopy-modal-filters .canopy-modal__body--filters {
+  padding: 2rem;
 }
 
-.filters-modal__status-text {
+/* Subtitle */
+#canopy-modal-filters .canopy-search-filters__subtitle {
   font-family: var(--font-title);
   font-size: 16px;
   color: rgba(95, 102, 80, 0.5);
   margin: 0;
-  padding-block: 0;
 }
 
-.filters-modal__close {
-  background: none;
-  border: none;
-  font-size: 28px;
-  color: #5a5a5a;
-  cursor: pointer;
-  padding: 0;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
-}
-
-.filters-modal__close:hover {
-  background-color: #f2efe8;
-}
-
-.filters-modal__clear {
-  color: #f2efe8;
-  background-color: #5f6650;
-  border: 0.5px solid #5f6650;
-  padding: 0.1rem 1rem;
-  border-radius: 50px;
-  font-family: var(--font-sans);
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.filters-modal__clear:hover {
-  background: none;
-  border-color: #c4c1b8;
-  color: #5f6650;
-}
-
-.filters-modal__facets {
+/* Facet sections (collapsible <details>) */
+#canopy-modal-filters .canopy-search-filters__facets {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  padding-inline: 2rem;
-  padding-bottom: 1rem;
+  gap: 0;
 }
 
-.filters-modal__facet {
-  border-bottom: 1px solid #5f6650;
-  padding-bottom: 1.5rem;
+#canopy-modal-filters .canopy-search-filters__facet {
+  border: 1.5px solid #5f6650;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  padding: 0;
+  overflow: hidden;
 }
 
-.filters-modal__facet:last-child {
-  border-bottom: none;
-}
-
-.filters-modal__facet-title {
-  font-family: var(--font-title);
-  font-size: 18px;
-  color: #5f6650;
-  margin: 0 0 0.75rem 0;
+/* Facet summary (closed state) — pill-like row */
+#canopy-modal-filters .canopy-search-filters__facet-summary {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 600;
+  color: #f2efe8;
+  background-color: #5f6650;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
   text-transform: capitalize;
 }
 
-.filters-modal__values {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 0.5rem;
+#canopy-modal-filters .canopy-search-filters__facet-summary::-webkit-details-marker {
+  display: none;
 }
 
-.filters-modal__value {
+#canopy-modal-filters .canopy-search-filters__facet-summary::marker {
+  display: none;
+  content: "";
+}
+
+/* Facet count badge in summary */
+#canopy-modal-filters .canopy-search-filters__facet-summary .canopy-search-filters__facet-count {
+  color: #f2efe8;
+  opacity: 0.8;
+  font-weight: 400;
+}
+
+/* Facet expanded content */
+#canopy-modal-filters .canopy-search-filters__facet-content {
+  padding: 0.75rem 1rem 1rem;
+  background: #f2efe8;
+}
+
+/* Quick-search input inside facet */
+#canopy-modal-filters .canopy-search-filters__quick {
+  margin-bottom: 0.5rem;
+}
+
+#canopy-modal-filters .canopy-search-filters__quick-input {
+  width: 100%;
+  background: white;
+  border: 1px solid rgba(95, 102, 80, 0.3);
+  border-radius: 6px;
+  padding: 0.4rem 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: #1a1b25;
+  outline: none;
+}
+
+#canopy-modal-filters .canopy-search-filters__quick-input:focus {
+  border-color: #5f6650;
+}
+
+#canopy-modal-filters .canopy-search-filters__quick-clear {
+  display: none;
+}
+
+/* Facet value list */
+#canopy-modal-filters .canopy-search-filters__facet-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#canopy-modal-filters .canopy-search-filters__facet-item {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  cursor: pointer;
 }
 
-.filters-modal__checkbox {
+#canopy-modal-filters .canopy-search-filters__facet-checkbox {
   width: 18px;
   min-width: 18px;
   height: 18px;
@@ -793,7 +847,7 @@ body {
   accent-color: #5f6650;
 }
 
-.filters-modal__label {
+#canopy-modal-filters .canopy-search-filters__facet-label {
   font-family: var(--font-sans);
   font-size: 14px;
   color: #1a1b25;
@@ -801,8 +855,60 @@ body {
   user-select: none;
 }
 
-.filters-modal__count {
+#canopy-modal-filters .canopy-search-filters__facet-label .canopy-search-filters__facet-count {
   color: #5a5a5a;
+}
+
+/* Footer */
+#canopy-modal-filters .canopy-search-filters__footer {
+  padding: 1rem 2rem;
+  border-top: 1px solid rgba(95, 102, 80, 0.15);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: rgba(95, 102, 80, 0.5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#canopy-modal-filters .canopy-search-filters__footer-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+#canopy-modal-filters .canopy-search-filters__button--secondary {
+  color: #1a1b25;
+  background: none;
+  border: 1.5px solid rgba(95, 102, 80, 0.4);
+  border-radius: 50px;
+  padding: 0.25rem 1.25rem;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#canopy-modal-filters .canopy-search-filters__button--secondary:hover {
+  border-color: #5f6650;
+}
+
+#canopy-modal-filters .canopy-search-filters__button--primary {
+  color: #f2efe8;
+  background-color: #5f6650;
+  border: 1.5px solid #5f6650;
+  padding: 0.25rem 1.25rem;
+  border-radius: 50px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#canopy-modal-filters .canopy-search-filters__button--primary:hover {
+  background-color: #4a5140;
+  border-color: #4a5140;
 }
 
 /* About Section Components */

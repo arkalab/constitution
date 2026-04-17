@@ -480,23 +480,23 @@ button.canopy-search-tabs__filters-button:hover {
 }
 
 /* Fix Canopy bug: filtersLabel prop default prevents i18n lookup */
-button.canopy-search-tabs__filters-button > span {
+button.canopy-search-tabs__filters-button > span:first-child {
   font-size: 0;
 }
 
-button.canopy-search-tabs__filters-button > span::before {
+button.canopy-search-tabs__filters-button > span:first-child::before {
   font-size: 28px;
 }
 
-:lang(en) button.canopy-search-tabs__filters-button > span::before {
+:lang(en) button.canopy-search-tabs__filters-button > span:first-child::before {
   content: "Filters";
 }
 
-:lang(fr) button.canopy-search-tabs__filters-button > span::before {
+:lang(fr) button.canopy-search-tabs__filters-button > span:first-child::before {
   content: "Filtres";
 }
 
-:lang(ar) button.canopy-search-tabs__filters-button > span::before {
+:lang(ar) button.canopy-search-tabs__filters-button > span:first-child::before {
   content: "Filters";
 }
 

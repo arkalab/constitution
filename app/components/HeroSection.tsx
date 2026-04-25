@@ -62,17 +62,22 @@ export default function HeroSection() {
 
       container.appendChild(app.canvas);
 
-      const texture_paper = await Assets.load("/collage_paper.webp");
-      const texture_draft = await Assets.load("/collage_draft.webp");
-      const texture_envelope = await Assets.load("/collage_envelope.webp");
-      const texture_chiha = await Assets.load("/collage_chiha.webp");
-      const texture_newspaper = await Assets.load("/collage_newspaper.webp");
-      const texture_doodle_1 = await Assets.load("/collage_doodle_1.webp");
-      const texture_doodle_2 = await Assets.load("/collage_doodle_2.webp");
-      const texture_minichiha = await Assets.load("/collage_minichiha.webp");
-      const texture_roundshape = await Assets.load("/collage_roundshape.webp");
-      const texture_date1926 = await Assets.load("/collage_date1926.webp");
-      const texture_e413 = await Assets.load("/collage_e413.webp");
+      const basePath =
+        typeof window !== "undefined" && (window as any).CANOPY_BASE_PATH
+          ? String((window as any).CANOPY_BASE_PATH).replace(/\/+$/, "")
+          : "";
+
+      const texture_paper = await Assets.load(`${basePath}/collage_paper.webp`);
+      const texture_draft = await Assets.load(`${basePath}/collage_draft.webp`);
+      const texture_envelope = await Assets.load(`${basePath}/collage_envelope.webp`);
+      const texture_chiha = await Assets.load(`${basePath}/collage_chiha.webp`);
+      const texture_newspaper = await Assets.load(`${basePath}/collage_newspaper.webp`);
+      const texture_doodle_1 = await Assets.load(`${basePath}/collage_doodle_1.webp`);
+      const texture_doodle_2 = await Assets.load(`${basePath}/collage_doodle_2.webp`);
+      const texture_minichiha = await Assets.load(`${basePath}/collage_minichiha.webp`);
+      const texture_roundshape = await Assets.load(`${basePath}/collage_roundshape.webp`);
+      const texture_date1926 = await Assets.load(`${basePath}/collage_date1926.webp`);
+      const texture_e413 = await Assets.load(`${basePath}/collage_e413.webp`);
 
 
       if (!mounted) return;

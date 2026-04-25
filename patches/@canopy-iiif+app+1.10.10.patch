@@ -1,0 +1,311 @@
+diff --git a/node_modules/@canopy-iiif/app/lib/components/timeline-runtime.js b/node_modules/@canopy-iiif/app/lib/components/timeline-runtime.js
+index 1b3f17c..f388cd1 100644
+--- a/node_modules/@canopy-iiif/app/lib/components/timeline-runtime.js
++++ b/node_modules/@canopy-iiif/app/lib/components/timeline-runtime.js
+@@ -1,6 +1,5 @@
+-import React from 'react';
+-import { createRoot, hydrateRoot } from 'react-dom/client';
+-import { Timeline } from '../../ui/dist/index.mjs';
++// Custom vanilla-JS timeline renderer — replaces the React Timeline component.
++// Consumes the __canopyTimeline.points JSON already embedded by MdxTimeline (server-side).
+ 
+ function ready(fn) {
+   if (typeof document === 'undefined') return;
+@@ -19,25 +18,182 @@ function parseProps(el) {
+   }
+ }
+ 
++function esc(str) {
++  return String(str || '')
++    .replace(/&/g, '&amp;')
++    .replace(/</g, '&lt;')
++    .replace(/>/g, '&gt;')
++    .replace(/"/g, '&quot;');
++}
++
++function formatDate(iso) {
++  const [y, m, d] = iso.split('-').map(Number);
++  return new Date(y, m - 1, d).toLocaleDateString('en-US', {
++    month: 'long', day: 'numeric', year: 'numeric'
++  });
++}
++
++function getYear(group) {
++  const match = /\d{4}/.exec(group[0].meta.label || '');
++  return match ? match[0] : '';
++}
++
++function buildCorner(isLeft) {
++  if (isLeft) {
++    return `<div class="ct-corner ct-corner--left"><div class="ct-corner__v"></div><div class="ct-corner__h"></div></div>`;
++  }
++  return `<div class="ct-corner ct-corner--right"><div class="ct-corner__h"></div><div class="ct-corner__v"></div></div>`;
++}
++
++function buildYearRow(year, side) {
++  const isLeft = side === 'left';
++  const yearHtml = `<div class="ct-year">${esc(String(year))}</div>`;
++  const leftCell  = isLeft  ? yearHtml : '';
++  const rightCell = !isLeft ? yearHtml : '';
++  return `
++    <div class="ct-row">
++      <div class="ct-cell ct-cell--left">${leftCell}</div>
++      <div class="ct-dot-col"></div>
++      <div class="ct-cell ct-cell--right">${rightCell}</div>
++    </div>`;
++}
++
++function buildIntroRow(title, rangeStart, rangeEnd, startYear) {
++  const dateRange = `${formatDate(rangeStart)} \u2013 ${formatDate(rangeEnd)}`;
++  const cardHtml = `
++    <div class="ct-card ct-card--intro">
++      <div class="ct-intro-title">${esc(title)}</div>
++      <div class="ct-intro-date">${esc(dateRange)}</div>
++    </div>`;
++  return `
++    <div class="ct-row">
++      <div class="ct-cell ct-cell--left">${cardHtml}</div>
++      <div class="ct-dot-col"></div>
++      <div class="ct-cell ct-cell--right"><div class="ct-year">${esc(String(startYear))}</div></div>
++    </div>`;
++}
++
++function buildManifestCard(m) {
++  const href = esc(m.href || '#');
++  const title = esc(m.title || '');
++  const thumb = m.thumbnail ? esc(m.thumbnail) : '';
++  const img = thumb
++    ? `<img src="${thumb}" alt="" width="100" height="100" loading="lazy">`
++    : `<span class="ct-manifest-card__no-thumb"></span>`;
++  return `<a class="ct-manifest-card" href="${href}">${img}<span>${title}</span></a>`;
++}
++
++function buildGroup(group, side) {
++  const isLeft = side === 'left';
++
++  const label = esc(group[0].meta.label);
++  const countHtml = group.length > 1 ? `<div class="ct-count">${group.length} Events</div>` : '';
++
++  // Collect all unique manifests across points in this group
++  const allManifests = [];
++  const seen = new Set();
++  for (const pt of group) {
++    if (Array.isArray(pt.manifests)) {
++      for (const m of pt.manifests) {
++        const key = m.id || m.href;
++        if (key && !seen.has(key)) { seen.add(key); allManifests.push(m); }
++      }
++    }
++  }
++
++  const numbered = group.length > 1;
++  const titlesHtml = group
++    .map((pt, idx) => {
++      const num = numbered ? `<span class="ct-title-num">${idx + 1}.</span> ` : '';
++      return `<div class="ct-title">${num}${esc(pt.title)}</div>`;
++    })
++    .join('');
++
++  const manifestsHtml = allManifests.length
++    ? `<div class="ct-manifests">${allManifests.map(buildManifestCard).join('')}</div>`
++    : '';
++
++  const cardHtml = `
++    <div class="ct-card">
++      ${buildCorner(isLeft)}
++      <div class="ct-date">${label}</div>
++      ${countHtml}
++      ${titlesHtml}
++      ${manifestsHtml}
++    </div>`;
++
++  const leftCell  = isLeft  ? cardHtml : '';
++  const rightCell = !isLeft ? cardHtml : '';
++
++  return `
++    <div class="ct-row">
++      <div class="ct-cell ${isLeft ? 'ct-cell--left' : 'ct-cell--right ct-cell--empty'}">${leftCell}</div>
++      <div class="ct-dot-col"></div>
++      <div class="ct-cell ${!isLeft ? 'ct-cell--right' : 'ct-cell--left ct-cell--empty'}">${rightCell}</div>
++    </div>`;
++}
++
++function renderTimeline(el, points, title, range) {
++  // Sort by timestamp
++  const sorted = points.slice().sort((a, b) => (a.meta.timestamp || 0) - (b.meta.timestamp || 0));
++
++  // Group consecutive points with the same timestamp
++  const groups = [];
++  for (const pt of sorted) {
++    const ts = pt.meta.timestamp;
++    const last = groups[groups.length - 1];
++    if (last && last[0].meta.timestamp === ts) {
++      last.push(pt);
++    } else {
++      groups.push([pt]);
++    }
++  }
++
++  const rows = [];
++
++  // Intro card (left) + start year (right)
++  const startYear = range && range.start ? range.start.slice(0, 4) : (groups[0] ? getYear(groups[0]) : '');
++  if (title && range && range.start && range.end) {
++    rows.push(buildIntroRow(title, range.start, range.end, startYear));
++  }
++
++  // Event groups with year-transition markers
++  let lastYear = startYear;
++  groups.forEach((group, i) => {
++    const side = i % 2 === 0 ? 'left' : 'right';
++    const year = getYear(group);
++    if (year && year !== lastYear) {
++      // Year marker on the opposite side from the first card of the new year
++      rows.push(buildYearRow(year, side === 'left' ? 'right' : 'left'));
++      lastYear = year;
++    }
++    rows.push(buildGroup(group, side));
++  });
++
++  // End year marker on the opposite side from the last group
++  if (groups.length > 0) {
++    const lastSide = (groups.length - 1) % 2 === 0 ? 'left' : 'right';
++    rows.push(buildYearRow(lastYear, lastSide === 'left' ? 'right' : 'left'));
++  }
++
++  el.innerHTML = `<div class="ct-timeline"><div class="ct-rows">${rows.join('')}</div></div>`;
++}
++
+ function mount(el) {
+   try {
+     if (!el || el.getAttribute('data-canopy-timeline-mounted') === '1') return;
+     const props = parseProps(el);
+     const dataNode = el.querySelector('script[type="application/json"]');
+-    if (dataNode && dataNode.parentNode === el) {
+-      dataNode.parentNode.removeChild(dataNode);
+-    }
+-    if (el.childElementCount > 0) {
+-      hydrateRoot(el, React.createElement(Timeline, props));
+-    } else {
+-      const root = createRoot(el);
+-      root.render(React.createElement(Timeline, props));
+-    }
++    if (dataNode && dataNode.parentNode === el) dataNode.parentNode.removeChild(dataNode);
++
++    const points = props.__canopyTimeline && Array.isArray(props.__canopyTimeline.points)
++      ? props.__canopyTimeline.points
++      : [];
++
++    renderTimeline(el, points, props.title || '', props.range || null);
+     el.setAttribute('data-canopy-timeline-mounted', '1');
+   } catch (error) {
+-    try {
+-      console.warn('[canopy][timeline] failed to mount timeline', error);
+-    } catch (_) {}
++    try { console.warn('[canopy][timeline] failed to mount timeline', error); } catch (_) {}
+   }
+ }
+ 
+@@ -58,18 +214,13 @@ function observe() {
+           mutation.addedNodes.forEach((node) => {
+             if (!(node instanceof Element)) return;
+             if (node.matches && node.matches('[data-canopy-timeline]')) toMount.push(node);
+-            const inner = node.querySelectorAll
+-              ? node.querySelectorAll('[data-canopy-timeline]')
+-              : [];
++            const inner = node.querySelectorAll ? node.querySelectorAll('[data-canopy-timeline]') : [];
+             inner && inner.forEach && inner.forEach((el) => toMount.push(el));
+           });
+       });
+       if (toMount.length) Promise.resolve().then(() => toMount.forEach(mount));
+     });
+-    obs.observe(document.documentElement || document.body, {
+-      childList: true,
+-      subtree: true,
+-    });
++    obs.observe(document.documentElement || document.body, { childList: true, subtree: true });
+   } catch (_) {}
+ }
+ 
+diff --git a/node_modules/@canopy-iiif/app/ui/styles/index.css b/node_modules/@canopy-iiif/app/ui/styles/index.css
+index 619f8a2..fa000c4 100644
+--- a/node_modules/@canopy-iiif/app/ui/styles/index.css
++++ b/node_modules/@canopy-iiif/app/ui/styles/index.css
+@@ -1,3 +1,77 @@
++/* canopy-theme */
++@layer properties {
++  :root {
++  --color-accent-50: #fffcfc;
++  --color-accent-100: #fff7f7;
++  --color-accent-200: #feebec;
++  --color-accent-300: #ffdbdc;
++  --color-accent-400: #f4a9aa;
++  --color-accent-500: #eb8e90;
++  --color-accent-600: #e5484d;
++  --color-accent-700: #dc3e42;
++  --color-accent-800: #ce2c31;
++  --color-accent-900: #641723;
++  --color-accent-default: #ce2c31;
++  --color-gray-50: #fcfcfd;
++  --color-gray-100: #f9f9fb;
++  --color-gray-200: #f0f0f3;
++  --color-gray-300: #e8e8ec;
++  --color-gray-400: #cdced6;
++  --color-gray-500: #b9bbc6;
++  --color-gray-600: #8b8d98;
++  --color-gray-700: #80838d;
++  --color-gray-800: #60646c;
++  --color-gray-900: #1c2024;
++  --color-gray-default: #1c2024;
++  --color-gray-muted: #60646c;
++  --colors-accent: #ce2c31 !important;
++  --colors-accentAlt: #ce2c31 !important;
++  --colors-accentMuted: #ce2c31 !important;
++  --colors-primary: #1c2024 !important;
++  --colors-primaryAlt: #1c2024 !important;
++  --colors-primaryMuted: #1c2024 !important;
++  --colors-secondary: #fcfcfd !important;
++  --colors-secondaryAlt: #fcfcfd !important;
++  --colors-secondaryMuted: #fcfcfd !important;
++  color-scheme: light;
++  }
++  :host {
++  --color-accent-50: #fffcfc;
++  --color-accent-100: #fff7f7;
++  --color-accent-200: #feebec;
++  --color-accent-300: #ffdbdc;
++  --color-accent-400: #f4a9aa;
++  --color-accent-500: #eb8e90;
++  --color-accent-600: #e5484d;
++  --color-accent-700: #dc3e42;
++  --color-accent-800: #ce2c31;
++  --color-accent-900: #641723;
++  --color-accent-default: #ce2c31;
++  --color-gray-50: #fcfcfd;
++  --color-gray-100: #f9f9fb;
++  --color-gray-200: #f0f0f3;
++  --color-gray-300: #e8e8ec;
++  --color-gray-400: #cdced6;
++  --color-gray-500: #b9bbc6;
++  --color-gray-600: #8b8d98;
++  --color-gray-700: #80838d;
++  --color-gray-800: #60646c;
++  --color-gray-900: #1c2024;
++  --color-gray-default: #1c2024;
++  --color-gray-muted: #60646c;
++  --colors-accent: #ce2c31 !important;
++  --colors-accentAlt: #ce2c31 !important;
++  --colors-accentMuted: #ce2c31 !important;
++  --colors-primary: #1c2024 !important;
++  --colors-primaryAlt: #1c2024 !important;
++  --colors-primaryMuted: #1c2024 !important;
++  --colors-secondary: #fcfcfd !important;
++  --colors-secondaryAlt: #fcfcfd !important;
++  --colors-secondaryMuted: #fcfcfd !important;
++  color-scheme: light;
++  }
++}
++/* canopy-theme:end */
+ /**
+  * Main stylesheet for the @canopy-iiif/app/ui package
+  */

@@ -1742,3 +1742,240 @@ body.fr-about-page .canopy-nav-tree__list--nested {
     grid-template-columns: 1fr;
   }
 }
+
+/* ─── Custom Timeline ─── */
+
+/* Hide SSR-rendered Canopy timeline HTML before our JS replaces it */
+[data-canopy-timeline]:not([data-canopy-timeline-mounted]) .canopy-timeline,
+[data-canopy-timeline]:not([data-canopy-timeline-mounted]) .canopy-timeline__range {
+  display: none;
+}
+
+.ct-timeline {
+  position: relative;
+  padding-block: 0 4rem;
+  padding-inline: 2rem;
+  max-width: var(--max-width-container);
+  margin: 0 auto;
+  margin-top: 66px;
+}
+
+/* Three-column grid: left-content | dot+spine | right-content */
+.ct-rows {
+  display: grid;
+  grid-template-columns: 1fr 40px 1fr;
+  row-gap: 4rem;
+  align-items: start;
+  position: relative;
+}
+
+/* Vertical spine line through center column */
+.ct-rows::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%);
+  width: 1rem;
+  background: rgba(95, 102, 80, 1);
+  -webkit-mask-image: linear-gradient(#0000, #000 10% 90%, #0000);
+  mask-image: linear-gradient(#0000, #000 10% 90%, #0000);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Each row is transparent to the parent grid (children become direct grid items) */
+.ct-row {
+  display: contents;
+}
+
+/* Content cells */
+.ct-cell {
+  min-width: 0;
+}
+
+/* Dot column */
+.ct-dot-col {
+  display: flex;
+  justify-content: center;
+  padding-top: 1.1rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Corner element — replaces border-top */
+.ct-corner {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 14px;
+  margin-bottom: 60px;
+}
+
+.ct-corner__v {
+  width: 2px;
+  height: 100%;
+  background: rgba(95, 102, 80, 1);
+  flex-shrink: 0;
+}
+
+.ct-corner__h {
+  flex: 1;
+  height: 2px;
+  background: rgba(95, 102, 80, 1);
+}
+
+/* Cards */
+.ct-card {
+  background: transparent;
+}
+
+.ct-cell--left .ct-card {
+  padding-right: 2.5rem;
+  text-align: left;
+}
+
+.ct-cell--right .ct-card {
+  padding-left: 2.5rem;
+  text-align: right;
+}
+
+/* Intro card (first row) */
+.ct-card--intro {
+  padding-bottom: 55px;
+}
+
+.ct-intro-title {
+  font-family: var(--font-title);
+  font-size: 35px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: rgba(95, 102, 80, 1);
+  margin-bottom: 0.5rem;
+}
+
+.ct-intro-date {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  color: rgba(95, 102, 80, 1);
+}
+
+/* Year markers */
+.ct-year {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1;
+  color: rgba(95, 102, 80, 0.3);
+  padding-top: 0.5rem;
+}
+
+.ct-cell--right .ct-year {
+  text-align: left;
+  padding-left: 2.5rem;
+}
+
+.ct-cell--left .ct-year {
+  text-align: right;
+  padding-right: 2.5rem;
+}
+
+.ct-date {
+  color: rgba(95, 102, 80, 1);
+  font-size: 15px;
+  font-family: var(--font-sans);
+  margin-bottom: 0.5rem;
+}
+
+.ct-count {
+  color: rgba(95, 102, 80, 1);
+  font-size: 35px;
+  line-height: 1.1;
+  font-family: var(--font-title);
+  font-weight: 400;
+  margin-bottom: 55px;
+}
+
+.ct-title {
+  color: rgba(26, 27, 37, 1);
+  font-size: 35px;
+  line-height: 1.2;
+  font-family: var(--font-title);
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+
+.ct-title + .ct-title {
+  margin-top: 2rem;
+}
+
+.ct-title-num {
+  font-family: var(--font-title);
+  font-size: 22px;
+  font-weight: 400;
+  color: rgba(95, 102, 80, 0.3);
+  vertical-align: middle;
+}
+
+/* Referenced manifest cards */
+.ct-manifests {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 36px;
+}
+
+.ct-cell--right .ct-manifests {
+  justify-content: flex-end;
+}
+
+.ct-manifest-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: rgba(255, 255, 255, 1);
+  padding: 10px;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+  border-radius: 10px !important;
+  transition: opacity 0.15s ease;
+  margin-bottom: 20px;
+}
+
+.ct-manifest-card:hover {
+  opacity: 0.8;
+  text-decoration: none;
+}
+
+.ct-cell--right .ct-manifest-card {
+  flex-direction: row-reverse;
+}
+
+.ct-manifest-card img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px !important;
+  flex-shrink: 0;
+  background-color: rgba(95, 102, 80, 0.1);
+}
+
+.ct-manifest-card__no-thumb {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  background: rgba(95, 102, 80, 0.1);
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+
+.ct-manifest-card span {
+  font-family: "Hedvig Letters Serif", serif;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.2;
+  color: rgba(26, 27, 37, 1);
+  text-align: left;
+}

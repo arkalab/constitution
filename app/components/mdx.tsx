@@ -5,7 +5,6 @@
  
 // Map SSR-safe components to be rendered at build time and used in MDX files
 export const components = {
-  HeroSection: "./HeroSection.tsx",
   NavBar: "./NavBar.tsx",
   FooterSection: "./FooterSection.tsx",
   AboutLayout: "./AboutLayout.tsx",
@@ -21,4 +20,6 @@ export const components = {
  
 // Map browser-only components to their source files; the builder bundles
 // them separately and hydrates placeholders at runtime.
-export const clientComponents = {};
+export const clientComponents = {
+  HeroSection: "./HeroSection.tsx",
+};

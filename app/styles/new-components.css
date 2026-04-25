@@ -1046,6 +1046,34 @@ svg.canopy-nav-tree__toggle-icon {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+@keyframes shimmer-fade {
+  0%   { opacity: 1; background-position: 200% 0; }
+  65%  { opacity: 1; background-position: -200% 0; }
+  100% { opacity: 0; }
+}
+
+.about-index__header-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #e8e4db 25%, #f2efe8 50%, #e8e4db 75%);
+  background-size: 200% 100%;
+  animation: shimmer-fade 2.5s ease-out forwards;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.about-index__header-image img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .about-index__title {

@@ -31,6 +31,10 @@ export default function FooterSection() {
           alt="Michel Chiha's Constitutional Papers"
           className="footer__logo"
         />
+        <div className="footer__copyright">
+          <p className="footer__copyright-line">© 2025 Michel Chiha Foundation, MIT License.</p>
+          <p className="footer__copyright-line">A Canopy IIIF Project.</p>
+        </div>
       </div>
     </footer>
   );

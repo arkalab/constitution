@@ -305,6 +305,43 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
     });
     observer.observe(document.body, { childList: true, subtree: true });
   }
+
+  // ── Mobile hamburger ──
+  var hamburger = document.querySelector('.navbar__hamburger');
+  var mobMenu = document.querySelector('.mob-menu');
+  var mobClose = document.querySelector('.mob-menu__close');
+
+  function openMobMenu() {
+    if (mobMenu) mobMenu.classList.add('mob-menu--open');
+    document.body.style.overflow = 'hidden';
+    if (hamburger) hamburger.setAttribute('aria-expanded', 'true');
+  }
+  function closeMobMenu() {
+    if (mobMenu) mobMenu.classList.remove('mob-menu--open');
+    document.body.style.overflow = '';
+    if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
+  }
+
+  if (hamburger) hamburger.addEventListener('click', openMobMenu);
+  if (mobClose) mobClose.addEventListener('click', closeMobMenu);
+
+  // Correct mob-menu hrefs for locale + BASE
+  var mobNavEls = document.querySelectorAll('.mob-menu__link, .mob-menu__sublink, .mob-menu__title');
+  mobNavEls.forEach(function(el) {
+    var h = el.getAttribute('href');
+    if (!h) return;
+    var appH = (BASE && h.startsWith(BASE)) ? h.slice(BASE.length) || '/' : h;
+    if (lang !== 'en') {
+      var routes = enRoutes[appH];
+      if (routes && routes[lang]) {
+        el.setAttribute('href', BASE + routes[lang]);
+        return;
+      }
+    }
+    if (BASE && appH.charAt(0) === '/' && !h.startsWith(BASE)) {
+      el.setAttribute('href', BASE + appH);
+    }
+  });
 })();`;
 
   return (
@@ -326,6 +363,11 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
           <button type="button" className="navbar__search-toggle" aria-label="Toggle search">
             <img src="/navbar_search_icon.svg" alt="Search" className="navbar__search-icon" />
           </button>
+          <button type="button" className="navbar__hamburger" aria-label="Open menu" aria-expanded="false">
+            <span className="navbar__hamburger-line" />
+            <span className="navbar__hamburger-line" />
+            <span className="navbar__hamburger-line" />
+          </button>
           <div className="navbar__links-list">
             <a href={nav.about.href} className="navbar__link">{nav.about.label}</a>
             <a href={nav.papers.href} className="navbar__link">{nav.papers.label}</a>
@@ -344,6 +386,32 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
           </div>
         </div>
       </nav>
+      <div className="mob-menu" role="dialog" aria-modal="true" aria-label="Navigation menu">
+        <div className="mob-menu__header">
+          <a href={nav.home} className="mob-menu__title">Michel Chiha's <i>Constitutional Papers</i></a>
+          <button type="button" className="mob-menu__close" aria-label="Close menu">✕</button>
+        </div>
+        <div className="mob-menu__body">
+          <nav className="mob-menu__nav">
+            <a href={nav.home} className="mob-menu__link mob-menu__link--home">Home</a>
+            <div className="mob-menu__item">
+              <a href={nav.about.href} className="mob-menu__link">{nav.about.label}</a>
+              <ul className="mob-menu__subnav">
+                <li><a href="/about/constitution" className="mob-menu__sublink">Constitution</a></li>
+                <li><a href="/about/document-guide" className="mob-menu__sublink">Document Guide</a></li>
+                <li><a href="/about/z-credits" className="mob-menu__sublink">Credits</a></li>
+              </ul>
+            </div>
+            <a href={nav.papers.href} className="mob-menu__link">{nav.papers.label}</a>
+            <a href={nav.timeline.href} className="mob-menu__link">{nav.timeline.label}</a>
+          </nav>
+        </div>
+        <div className="mob-menu__footer">
+          <img src="/footer_signature.png" className="mob-menu__signature" alt="" />
+          <p className="mob-menu__copyright">© 2025 Michel Chiha Foundation, MIT License.</p>
+          <p className="mob-menu__copyright">A Canopy IIIF Project.</p>
+        </div>
+      </div>
       <script dangerouslySetInnerHTML={{ __html: script }} />
     </div>
   );

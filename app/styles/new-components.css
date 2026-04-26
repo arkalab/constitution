@@ -2269,24 +2269,27 @@ body.fr-about-page .canopy-nav-tree__list--nested {
 @media (max-width: 768px) {
   body.canopy-type-search .canopy-search {
     padding-inline: 1rem;
-    /* Flatten tabs-wrapper children into this flex container via display:contents
-       so we can place filters button on the same row as the summary text */
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    flex-direction: column;
   }
 
-  /* Dissolve the tabs wrapper — its children become direct flex children of .canopy-search */
+  /* Tabs wrapper: column layout so tabs row + Filters stack vertically */
   body.canopy-type-search [data-canopy-search-tabs] {
-    display: contents;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .canopy-search-tabs-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+    margin-block: 0;
   }
 
   /* Row 1: tabs — full width */
   .canopy-search-tabs {
     width: 100%;
-    order: 1;
     flex-shrink: 0;
-    margin-top: 100px;
+    margin-top: 125px;
   }
 
   .canopy-search-tabs button.canopy-search-tab {
@@ -2295,10 +2298,24 @@ body.fr-about-page .canopy-nav-tree__list--nested {
     font-size: 20px;
   }
 
-  /* Row 2 left: summary text */
+  /* Row 2: Filters — right-aligned below tabs */
+  button.canopy-search-tabs__filters-button {
+    align-self: flex-end;
+    margin-top: 12px;
+    font-family: var(--font-title);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1;
+    padding: 0;
+  }
+
+  button.canopy-search-tabs__filters-button > span:first-child::before {
+    font-family: var(--font-title);
+    font-size: 16px;
+  }
+
+  /* Row 3: summary — left-aligned below Filters */
   body.canopy-type-search [data-canopy-search-summary] {
-    order: 2;
-    flex: 1;
     margin-top: 16px;
   }
 
@@ -2308,23 +2325,8 @@ body.fr-about-page .canopy-nav-tree__list--nested {
     line-height: 1.4;
   }
 
-  /* Row 2 right: Filters button, same font as summary */
-  button.canopy-search-tabs__filters-button {
-    order: 2;
-    margin-left: auto;
-    margin-top: 16px;
-    font: 400 12px/1.4 var(--font-sans);
-    padding: 0;
-  }
-
-  button.canopy-search-tabs__filters-button > span:first-child::before {
-    font-size: 12px;
-    font-family: var(--font-sans);
-  }
-
-  /* Row 3: results */
+  /* Row 4: results */
   body.canopy-type-search [data-canopy-search-results] {
-    order: 3;
     width: 100%;
     margin-left: 0;
     padding-left: 0;

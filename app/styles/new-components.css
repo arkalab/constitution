@@ -623,14 +623,18 @@ body.canopy-type-search .search-result.work .canopy-card-image {
   display: block;
 }
 
-body.canopy-type-search .search-result.work .canopy-card h4,
-body.canopy-type-search .search-result.work .canopy-card p {
+body.canopy-type-search .search-result.work .canopy-card figcaption span {
   font-family: var(--font-title);
+  font-weight: 400;
   font-size: 14px;
+  line-height: 1;
   color: #1a1b25;
+}
+
+body.canopy-type-search .search-result.work .canopy-card figcaption {
   margin: 0;
   padding: 18px;
-  min-height: calc(1.4 * 14px * 4 + 36px);
+  min-height: calc(1 * 14px * 4 + 36px);
 }
 
 /* ── Page Results (vertical list) ── */
@@ -2094,7 +2098,7 @@ body.fr-about-page .canopy-nav-tree__list--nested {
   }
 
   .navbar__link--logo {
-    font-size: 22px;
+    font-size: 30px;
     white-space: normal;
     word-break: break-word;
   }
@@ -2133,7 +2137,7 @@ body.fr-about-page .canopy-nav-tree__list--nested {
 .mob-menu__title {
   color: #1a1b25;
   font-family: var(--font-logo);
-  font-size: 45px;
+  font-size: 35px;
   line-height: 100%;
   text-decoration: none;
 }
@@ -2242,4 +2246,134 @@ body.fr-about-page .canopy-nav-tree__list--nested {
   color: rgba(26, 27, 37, 0.5);
   margin: 0;
   padding-block: 2px;
+}
+
+/* ─── Search page — mobile ─── */
+
+@media (max-width: 768px) {
+  body.canopy-type-search .canopy-search {
+    padding-inline: 1rem;
+    /* Flatten tabs-wrapper children into this flex container via display:contents
+       so we can place filters button on the same row as the summary text */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  /* Dissolve the tabs wrapper — its children become direct flex children of .canopy-search */
+  body.canopy-type-search [data-canopy-search-tabs] {
+    display: contents;
+  }
+
+  /* Row 1: tabs — full width */
+  .canopy-search-tabs {
+    width: 100%;
+    order: 1;
+    flex-shrink: 0;
+    margin-top: 40px;
+  }
+
+  .canopy-search-tabs button.canopy-search-tab {
+    flex: 1;
+    width: auto;
+    font-size: 20px;
+  }
+
+  /* Row 2 left: summary text */
+  body.canopy-type-search [data-canopy-search-summary] {
+    order: 2;
+    flex: 1;
+    margin-top: 16px;
+  }
+
+  [data-canopy-search-summary] .text-sm {
+    font-size: 12px;
+    margin-bottom: 0;
+    line-height: 1.4;
+  }
+
+  /* Row 2 right: Filters button, same font as summary */
+  button.canopy-search-tabs__filters-button {
+    order: 2;
+    margin-left: auto;
+    margin-top: 16px;
+    font: 400 12px/1.4 var(--font-sans);
+    padding: 0;
+  }
+
+  button.canopy-search-tabs__filters-button > span:first-child::before {
+    font-size: 12px;
+    font-family: var(--font-sans);
+  }
+
+  /* Row 3: results */
+  body.canopy-type-search [data-canopy-search-results] {
+    order: 3;
+    width: 100%;
+    margin-left: 0;
+    padding-left: 0;
+    margin-bottom: 40px;
+  }
+
+  /* ── Work results: 2-column grid ── */
+  body.canopy-type-search #search-results.space-y-6 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    overflow-x: visible;
+    scroll-snap-type: none;
+    padding: 16px 0 2rem;
+  }
+
+  body.canopy-type-search .search-result.work {
+    width: auto;
+    flex-shrink: initial;
+  }
+
+  /* Reactivate vertical scroll on mobile */
+  body.canopy-type-search {
+    overflow-y: auto;
+    height: auto;
+  }
+
+  body.canopy-type-search .search-result.work .canopy-card {
+    width: 100%;
+    background-color: transparent;
+    padding: 0;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  body.canopy-type-search .search-result.work .canopy-card-media {
+    width: 100%;
+    height: 200px;
+    padding-bottom: 0 !important;
+    aspect-ratio: unset;
+    border-radius: 8px 8px 0 0;
+    align-items: flex-start;
+  }
+
+  body.canopy-type-search .search-result.work .canopy-card-image {
+    object-position: top;
+  }
+
+  /* Title: max 2 lines with ellipsis, Hedvig Letters Serif */
+  body.canopy-type-search .search-result.work .canopy-card figcaption {
+    background-color: white;
+    border-radius: 0 0 8px 8px;
+    padding: 9.5px 11px;
+    min-height: unset;
+  }
+
+  body.canopy-type-search .search-result.work .canopy-card figcaption span {
+    font-family: var(--font-title);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 }

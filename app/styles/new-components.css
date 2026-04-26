@@ -2085,6 +2085,10 @@ body.fr-about-page .canopy-nav-tree__list--nested {
 /* ─── Mobile NavBar overrides ─── */
 
 @media (max-width: 768px) {
+  :root {
+    --navbar-height: 0px; /* 16px top + 30px × 2 lines (logo) + 16px bottom */
+  }
+
   .navbar__links-list {
     display: none;
   }
@@ -2094,7 +2098,7 @@ body.fr-about-page .canopy-nav-tree__list--nested {
   }
 
   .navbar__search-toggle {
-    margin-right: 22px;
+    margin-right: 16px;
   }
 
   .navbar__link--logo {
@@ -2104,8 +2108,20 @@ body.fr-about-page .canopy-nav-tree__list--nested {
   }
 
   .navbar {
+    height: auto;
+    align-items: flex-start;
     padding-inline: 1.25rem;
+    padding-block: 16px;
     gap: 12px;
+  }
+
+  .navbar__title {
+    min-width: 0;
+  }
+
+  .navbar__links {
+    flex-shrink: 0;
+    align-self: flex-start;
   }
 }
 
@@ -2137,7 +2153,7 @@ body.fr-about-page .canopy-nav-tree__list--nested {
 .mob-menu__title {
   color: #1a1b25;
   font-family: var(--font-logo);
-  font-size: 35px;
+  font-size: 32px;
   line-height: 100%;
   text-decoration: none;
 }
@@ -2270,7 +2286,7 @@ body.fr-about-page .canopy-nav-tree__list--nested {
     width: 100%;
     order: 1;
     flex-shrink: 0;
-    margin-top: 40px;
+    margin-top: 100px;
   }
 
   .canopy-search-tabs button.canopy-search-tab {
@@ -2369,7 +2385,7 @@ body.fr-about-page .canopy-nav-tree__list--nested {
     font-family: var(--font-title);
     font-weight: 400;
     font-size: 18px;
-    line-height: 1;
+    line-height: 1.25;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     line-clamp: 2;

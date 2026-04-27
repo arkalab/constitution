@@ -2492,3 +2492,69 @@ body.fr-about-page .canopy-nav-tree__list--nested {
     line-height: 18px;
   }
 }
+
+/* ─── Timeline — mobile ─── */
+
+@media (max-width: 768px) {
+  .ct-timeline {
+    margin-top: 150px;
+  }
+
+  /* Remove central spine */
+  .ct-rows::before {
+    display: none;
+  }
+
+  /* Switch from grid to flex — each ct-row is one block, gap is always uniform */
+  .ct-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  /* Override display:contents so each row is a real block */
+  .ct-row {
+    display: block;
+  }
+
+  /* Year-only rows (start/end/transition markers) have no visible content — hide entirely */
+  .ct-row--year {
+    display: none;
+  }
+
+  /* Hide year labels that appear inside non-year rows (e.g. intro row) */
+  .ct-year {
+    display: none;
+  }
+
+  /* Hide dot column */
+  .ct-dot-col {
+    display: none;
+  }
+
+  /* Remove side padding and force left-align on all cards */
+  .ct-cell--left .ct-card,
+  .ct-cell--right .ct-card {
+    padding-right: 0;
+    padding-left: 0;
+    text-align: left;
+  }
+
+  /* Align manifest lists and cards to the left */
+  .ct-cell--right .ct-manifests {
+    justify-content: flex-start;
+  }
+
+  .ct-cell--right .ct-manifest-card {
+    flex-direction: row;
+  }
+
+  .ct-cell--right .ct-manifest-card span {
+    text-align: left;
+  }
+
+  /* Corner border: full width */
+  .ct-corner {
+    width: 100%;
+  }
+}

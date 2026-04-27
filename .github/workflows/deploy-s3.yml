@@ -2,6 +2,7 @@ name: Deploy to S3
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   id-token: write
@@ -21,5 +22,5 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
           aws-region: us-east-1
-      - run: aws s3 sync site/ s3://ccp-575620421308-eu-central-1-an --delete
+      - run: aws s3 sync site/ s3://ccp-575620421308-eu-central-1-an/site/ --delete
       - run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CF_DISTRIBUTION_ID }} --paths "/*"

@@ -1,7 +1,11 @@
-name: Deploy
+name: Deploy to S3
 on:
   push:
     branches: [main]
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   deploy:
@@ -15,8 +19,7 @@ jobs:
       - run: npm run build
       - uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
           aws-region: us-east-1
-      - run: aws s3 sync site/ s3://your-bucket-name --delete
+      - run: aws s3 sync site/ s3://ccp-575620421308-eu-central-1-an --delete
       - run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CF_DISTRIBUTION_ID }} --paths "/*"

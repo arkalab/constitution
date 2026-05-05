@@ -1778,9 +1778,14 @@ body.fr-about-page .canopy-nav-tree__list--nested {
 
 .work-detail__viewer {
   border-radius: 10px;
-  overflow: hidden;
   min-height: 600px;
-  background: var(--color-gray-200, #e2e8f0);
+  background: transparent;
+}
+
+.work-detail__viewer .clover-viewer-painting {
+  background: #ded9d0;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .work-detail__related {
@@ -1794,6 +1799,355 @@ body.fr-about-page .canopy-nav-tree__list--nested {
   color: rgba(95, 102, 80, 1);
   text-transform: uppercase;
   margin-bottom: 20px;
+}
+
+/* ─── Clover Viewer Overrides (work detail) ─── */
+
+/* Wrapper: stack thumbnails first, controls below */
+.work-detail__viewer .clover-viewer-media-wrapper {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.work-detail__viewer .clover-viewer-media-wrapper .clover-viewer-media-controls {
+  order: 2;
+  width: 100% !important;
+  padding: 0 !important;
+  position: static !important;
+}
+
+.work-detail__viewer .clover-viewer-media-wrapper [role="radiogroup"][data-testid="media"] {
+  order: 1;
+}
+
+/* Inner wrapper around media-navigation (jS / c-grPSqG) — Clover sets it to
+   position:absolute top-right; reset to in-flow full-width */
+.work-detail__viewer .clover-viewer-media-controls > div {
+  position: static !important;
+  top: auto !important;
+  right: auto !important;
+  width: 100% !important;
+  flex: 1 1 100% !important;
+  display: block !important;
+}
+
+/* Hide the media-search toggle button */
+.work-detail__viewer .clover-viewer-media-search {
+  display: none !important;
+}
+
+/* Media navigation (prev / next / counter) — span full column width as a flex row */
+.work-detail__viewer .clover-viewer-media-navigation,
+.work-detail__viewer div.clover-viewer-media-navigation {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 8px;
+  width: 100% !important;
+  height: 44px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background-color: transparent !important;
+  background: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: #f2efe8 !important;
+  font-family: var(--font-sans) !important;
+}
+
+.work-detail__viewer .clover-viewer-media-navigation > button,
+.work-detail__viewer div.clover-viewer-media-navigation > button {
+  background-color: #5f6650 !important;
+  color: #f2efe8 !important;
+  border: none !important;
+  border-radius: 10px !important;
+  padding: 0 12px !important;
+  font-family: var(--font-sans) !important;
+  font-size: 20px !important;
+  font-weight: 400 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 80px !important;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  width: 100% !important;
+  height: 44px !important;
+  box-shadow: none !important;
+}
+
+/* Previous: arrow flush left, text centered in remaining space */
+.work-detail__viewer .clover-viewer-media-navigation > button:nth-child(1) {
+  justify-content: flex-start !important;
+}
+
+.work-detail__viewer .clover-viewer-media-navigation > button:nth-child(1)::after {
+  flex: 1;
+  text-align: center;
+  padding-right: 32px;
+  white-space: nowrap;
+}
+
+/* Next: arrow flush right, text centered in remaining space */
+.work-detail__viewer .clover-viewer-media-navigation > button:nth-child(3) {
+  justify-content: flex-end !important;
+}
+
+.work-detail__viewer .clover-viewer-media-navigation > button:nth-child(3)::before {
+  flex: 1;
+  text-align: center;
+  padding-left: 32px;
+  order: 0;
+  white-space: nowrap;
+}
+
+.work-detail__viewer .clover-viewer-media-navigation > button:nth-child(3) > svg {
+  order: 1;
+}
+
+/* Reorder DOM (prev, span, next) to visual (prev, next, span) with flex order */
+.work-detail__viewer .clover-viewer-media-navigation > *:nth-child(1) {
+  order: 1;
+  flex: 1 1 0;
+}
+
+.work-detail__viewer .clover-viewer-media-navigation > *:nth-child(3) {
+  order: 2;
+  flex: 1 1 0;
+}
+
+.work-detail__viewer .clover-viewer-media-navigation > *:nth-child(2) {
+  order: 3;
+  flex: 0 0 auto;
+}
+
+.work-detail__viewer .clover-viewer-media-navigation > button:hover:not(:disabled) {
+  background-color: #4a5140 !important;
+}
+
+.work-detail__viewer .clover-viewer-media-navigation > button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.work-detail__viewer .clover-viewer-media-navigation > button svg {
+  width: 18px !important;
+  height: 18px !important;
+  flex-shrink: 0;
+  filter: unset !important;
+  color: #f2efe8 !important;
+  fill: none !important;
+  stroke: currentColor !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: content-box;
+}
+
+/* Inject Previous / Next text labels next to the SVG icons (LTR default) */
+.work-detail__viewer
+  .clover-viewer-media-navigation:not([data-rtl-paged="true"])
+  > button:first-child::after {
+  content: "Previous";
+}
+
+.work-detail__viewer
+  .clover-viewer-media-navigation:not([data-rtl-paged="true"])
+  > button:nth-child(3)::before {
+  content: "Next Page";
+}
+
+/* RTL paged: button order is swapped (next first, previous last) */
+.work-detail__viewer
+  .clover-viewer-media-navigation[data-rtl-paged="true"]
+  > button:first-child::before {
+  content: "الصفحة التالية";
+}
+
+.work-detail__viewer
+  .clover-viewer-media-navigation[data-rtl-paged="true"]
+  > button:nth-child(3)::after {
+  content: "السابق";
+}
+
+:lang(fr)
+  .work-detail__viewer
+  .clover-viewer-media-navigation:not([data-rtl-paged="true"])
+  > button:first-child::after {
+  content: "Précédent";
+}
+
+:lang(fr)
+  .work-detail__viewer
+  .clover-viewer-media-navigation:not([data-rtl-paged="true"])
+  > button:nth-child(3)::before {
+  content: "Page suivante";
+}
+
+/* Page counter — green pill */
+.work-detail__viewer .clover-viewer-media-navigation > span {
+  background-color: #5f6650 !important;
+  color: #f2efe8 !important;
+  border-radius: 10px !important;
+  padding: 0 24px !important;
+  font-family: var(--font-sans) !important;
+  font-size: 20px !important;
+  font-weight: 400 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  height: 44px !important;
+  min-width: 96px;
+  white-space: nowrap;
+  gap: 4px;
+}
+
+.work-detail__viewer .clover-viewer-media-navigation > span em {
+  font-style: normal;
+  opacity: 0.5;
+  margin: 0 2px;
+}
+
+/* Canvas thumbnails — portrait orientation, fit the content (no crop) */
+.work-detail__viewer [role="radiogroup"][data-testid="media"] {
+  padding: 0 !important;
+  gap: 12px !important;
+}
+
+.work-detail__viewer [role="radiogroup"][data-testid="media"] button[data-testid="media-thumbnail"] {
+  width: 110px !important;
+  flex-shrink: 0 !important;
+}
+
+.work-detail__viewer [role="radiogroup"][data-testid="media"] button[data-testid="media-thumbnail"] figure {
+  width: 110px !important;
+  margin: 0 !important;
+}
+
+.work-detail__viewer [role="radiogroup"][data-testid="media"] button[data-testid="media-thumbnail"] figure > div:first-child {
+  height: auto !important;
+  aspect-ratio: 3 / 4 !important;
+  background-color: rgba(95, 102, 80, 0.08) !important;
+  border-radius: 4px !important;
+}
+
+.work-detail__viewer [role="radiogroup"][data-testid="media"] .media-thumbnail-lazyload {
+  height: 100% !important;
+}
+
+.work-detail__viewer [role="radiogroup"][data-testid="media"] .media-thumbnail-lazyload img {
+  object-fit: contain !important;
+  object-position: center !important;
+  background-color: transparent !important;
+}
+
+.work-detail__viewer [role="radiogroup"][data-testid="media"] button[data-testid="media-thumbnail"] figcaption {
+  font-family: var(--font-sans) !important;
+  font-size: 12px !important;
+  color: #5f6650 !important;
+  margin-top: 6px !important;
+}
+
+/* ─── Related Items slider overrides ─── */
+
+/* The visible circle is the <div> inside the button, which Clover paints red.
+   Override to project green with white iconography. */
+.work-detail__related button[class*="clover-slider-previous"] > div,
+.work-detail__related button[class*="clover-slider-next"] > div {
+  background-color: #5f6650 !important;
+  color: #f2efe8 !important;
+}
+
+.work-detail__related button[class*="clover-slider-previous"] svg,
+.work-detail__related button[class*="clover-slider-next"] svg {
+  color: #f2efe8 !important;
+  fill: none !important;
+  stroke: #f2efe8 !important;
+  filter: unset !important;
+}
+
+.work-detail__related button[class*="clover-slider-previous"]:hover:enabled > div,
+.work-detail__related button[class*="clover-slider-next"]:hover:enabled > div {
+  background-color: #4a5140 !important;
+}
+
+.work-detail__related button[class*="clover-slider-previous"][disabled] > div,
+.work-detail__related button[class*="clover-slider-next"][disabled] > div {
+  background-color: #5f6650 !important;
+  opacity: 0.4;
+}
+
+/* View All button — green pill */
+.work-detail__related .clover-slider-header-view-all {
+  color: #f2efe8 !important;
+  background-color: #5f6650 !important;
+  font-family: var(--font-sans);
+}
+
+/* Label/summary linked wrapper — keep transparent (no pill) */
+.work-detail__related a.clover-slider-header-homepage {
+  background-color: transparent !important;
+  color: inherit !important;
+  text-decoration: none;
+}
+
+/* Value (e.g. "French") — small green caption on top */
+.work-detail__related .clover-slider-header-label {
+  font-family: var(--font-sans) !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  color: #5f6650 !important;
+}
+
+/* Field name (e.g. "language") — large dark serif title below */
+.work-detail__related .clover-slider-header-summary {
+  font-family: var(--font-title) !important;
+  font-size: 32px !important;
+  font-weight: 400 !important;
+  color: #1a1b25 !important;
+  line-height: 1.1 !important;
+  text-transform: capitalize !important;
+  letter-spacing: 0;
+  margin: 0 !important;
+}
+
+/* Group value (top) + field name (bottom) with a vertical bar on the left */
+.work-detail__related [data-testid="slider-header"] > div:first-child {
+  position: relative;
+  padding-left: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.work-detail__related [data-testid="slider-header"] > div:first-child > a.clover-slider-header-homepage,
+.work-detail__related [data-testid="slider-header"] > div:first-child > .clover-slider-header-label {
+  order: 1;
+}
+
+.work-detail__related [data-testid="slider-header"] > div:first-child > .clover-slider-header-summary {
+  order: 2;
+}
+
+.work-detail__related [data-testid="slider-header"] > div:first-child::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  background-color: #5f6650;
+}
+
+/* Slider label/summary text — Funnel Sans */
+.work-detail__related .canopy-slider .clover-slider-header-label,
+.work-detail__related .canopy-slider .clover-slider-header-summary {
+  font-family: var(--font-sans) !important;
+}
+
+.work-detail__related .canopy-slider figcaption span {
+  font-family: var(--font-sans) !important;
 }
 
 /* Responsive — Work Detail */

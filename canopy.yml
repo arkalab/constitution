@@ -30,7 +30,7 @@ search:
         - tagging
 theme:
   appearance: light
-  accentColor: red
+  accentColor: green
   grayColor: slate
 locales:
   - lang: en

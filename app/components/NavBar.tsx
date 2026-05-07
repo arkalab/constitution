@@ -299,7 +299,7 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
         results.addEventListener('wheel', function(e) {
           if (results.scrollWidth <= results.clientWidth) return;
           e.preventDefault();
-          results.scrollLeft += e.deltaY;
+          results.scrollBy({ left: -e.deltaY, behavior: 'smooth' });
         }, { passive: false });
       }
     });

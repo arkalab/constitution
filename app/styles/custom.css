@@ -489,6 +489,15 @@ body[style*="overflow: hidden"] .navbar-wrapper::after {
   line-height: 18px;
 }
 
+.footer__item a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.footer__item a:hover {
+  text-decoration: underline;
+}
+
 .footer__language-item {
   color: var(--color-accent-default);
   font-size: 16px;

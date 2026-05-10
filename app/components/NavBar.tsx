@@ -310,20 +310,38 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
   var hamburger = document.querySelector('.navbar__hamburger');
   var mobMenu = document.querySelector('.mob-menu');
   var mobClose = document.querySelector('.mob-menu__close');
+  var mobOverlay = document.querySelector('.mob-menu-overlay');
 
   function openMobMenu() {
     if (mobMenu) mobMenu.classList.add('mob-menu--open');
+    if (mobOverlay) mobOverlay.classList.add('mob-menu-overlay--open');
     document.body.style.overflow = 'hidden';
     if (hamburger) hamburger.setAttribute('aria-expanded', 'true');
   }
   function closeMobMenu() {
     if (mobMenu) mobMenu.classList.remove('mob-menu--open');
+    if (mobOverlay) mobOverlay.classList.remove('mob-menu-overlay--open');
     document.body.style.overflow = '';
     if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
   }
 
   if (hamburger) hamburger.addEventListener('click', openMobMenu);
   if (mobClose) mobClose.addEventListener('click', closeMobMenu);
+  if (mobOverlay) mobOverlay.addEventListener('click', closeMobMenu);
+
+  // Close menu when a nav link is clicked; prevent navigation if already on that page
+  var mobNavLinks = document.querySelectorAll('.mob-menu__link, .mob-menu__sublink');
+  mobNavLinks.forEach(function (el) {
+    el.addEventListener('click', function (e) {
+      var h = el.getAttribute('href') || '';
+      var currentPath = window.location.pathname;
+      var norm = function(p) { return (p.length > 1 && p[p.length - 1] === '/') ? p.slice(0, -1) : p; };
+      if (norm(currentPath) === norm(h)) {
+        e.preventDefault();
+      }
+      closeMobMenu();
+    });
+  });
 
   // Correct mob-menu hrefs for locale + BASE
   var mobNavEls = document.querySelectorAll('.mob-menu__link, .mob-menu__sublink, .mob-menu__title');
@@ -386,9 +404,10 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
           </div>
         </div>
       </nav>
+      <div className="mob-menu-overlay" />
       <div className="mob-menu" role="dialog" aria-modal="true" aria-label="Navigation menu">
         <div className="mob-menu__header">
-          <a href={nav.home} className="mob-menu__title">Michel Chiha's <i>Constitutional Papers</i></a>
+          <a href={nav.home} className="mob-menu__title">Michel Chiha's<br /><i>Constitutional Papers</i></a>
           <button type="button" className="mob-menu__close" aria-label="Close menu">✕</button>
         </div>
         <div className="mob-menu__body">
@@ -408,7 +427,7 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
         </div>
         <div className="mob-menu__footer">
           <img src="/footer_signature.png" className="mob-menu__signature" alt="" />
-          <p className="mob-menu__copyright">© 2025 Michel Chiha Foundation, MIT License.</p>
+          <p className="mob-menu__copyright">© 2026 Michel Chiha Foundation, MIT License.</p>
           <p className="mob-menu__copyright">A Canopy IIIF Project.</p>
         </div>
       </div>

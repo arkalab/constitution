@@ -2573,7 +2573,7 @@ body.fr-about-page .canopy-nav-tree__list--nested {
   }
 
   .navbar__link--logo {
-    font-size: 30px;
+    font-size: 32px;
     white-space: normal;
     word-break: break-word;
   }
@@ -2598,18 +2598,39 @@ body.fr-about-page .canopy-nav-tree__list--nested {
 
 /* ─── Mobile Menu (mob-menu) ─── */
 
+.mob-menu-overlay {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 199;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.mob-menu-overlay--open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .mob-menu {
-  display: none;
+  display: flex;
   position: fixed;
   inset: 0;
   z-index: 200;
   background: #f2efe8;
   flex-direction: column;
   overflow-y: auto;
+  transform: translateX(100%);
+  visibility: hidden;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.35s;
 }
 
 .mob-menu--open {
-  display: flex;
+  transform: translateX(0);
+  visibility: visible;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0s;
 }
 
 .mob-menu__header {

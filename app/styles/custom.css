@@ -104,6 +104,12 @@ body {
   height: 40px;
   background: linear-gradient(to bottom, #f2efe8, transparent);
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.navbar-wrapper--scrolled::after {
+  opacity: 1;
 }
 
 /* Hide navbar gradient when a modal is open (body overflow is locked) */
@@ -1545,7 +1551,11 @@ svg.canopy-nav-tree__toggle-icon {
   }
 
   .about-page__sidebar {
-    position: static;
+    display: none;
+  }
+
+  .about-index__header-nav {
+    display: none;
   }
 
   .about-page__content h1 {
@@ -2569,13 +2579,17 @@ body.fr-about-page .canopy-nav-tree__list--nested {
   }
 
   .navbar__search-toggle {
-    margin-right: 16px;
+    display: none;
   }
 
   .navbar__link--logo {
     font-size: 32px;
     white-space: normal;
     word-break: break-word;
+  }
+
+  .navbar__logo-line2 {
+    display: block;
   }
 
   .navbar {
@@ -2690,7 +2704,7 @@ body.fr-about-page .canopy-nav-tree__list--nested {
   border-bottom: 1px solid rgba(26, 27, 37, 1);
   color: #1a1b25;
   font-family: var(--font-title);
-  font-size: 62px;
+  font-size: clamp(36px, 12vw, 62px);
   font-weight: 400;
   line-height: 100%;
   text-decoration: none;
@@ -2740,6 +2754,32 @@ body.fr-about-page .canopy-nav-tree__list--nested {
 .mob-menu__footer {
   margin-top: 60px;
   padding: 16px 1.25rem 32px;
+}
+
+.mob-menu__lang {
+}
+
+.mob-menu__lang-list {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  margin: 0;
+  padding: 18px 0;
+}
+
+.mob-menu__lang-link {
+  display: block;
+  color: rgba(26, 27, 37, 1);
+  font-family: var(--font-title);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 100%;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.mob-menu__lang-link:hover {
+  color: var(--color-accent-default);
 }
 
 .mob-menu__signature {

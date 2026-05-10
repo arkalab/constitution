@@ -343,13 +343,35 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
     });
   });
 
-  // Correct mob-menu hrefs for locale + BASE
+  // Correct mob-menu hrefs and labels for locale + BASE
+  var mobLabelMap = {
+    fr: {
+      '/about': 'À propos',
+      '/search': 'Papiers',
+      '/timeline': 'Chronologie',
+      '/about/constitution': 'Constitution',
+      '/about/document-guide': 'Guide documentaire',
+      '/about/z-credits': 'Crédits',
+    },
+    ar: {
+      '/about': 'About',
+      '/search': 'Papers',
+      '/timeline': 'Timeline',
+      '/about/constitution': 'Constitution',
+      '/about/document-guide': 'Document Guide',
+      '/about/z-credits': 'Credits',
+    },
+  };
   var mobNavEls = document.querySelectorAll('.mob-menu__link, .mob-menu__sublink, .mob-menu__title');
+  var mobLabels = (lang !== 'en' && mobLabelMap[lang]) ? mobLabelMap[lang] : null;
   mobNavEls.forEach(function(el) {
     var h = el.getAttribute('href');
     if (!h) return;
     var appH = (BASE && h.startsWith(BASE)) ? h.slice(BASE.length) || '/' : h;
     if (lang !== 'en') {
+      if (mobLabels && mobLabels[appH] && !el.classList.contains('mob-menu__title')) {
+        el.textContent = mobLabels[appH];
+      }
       var routes = enRoutes[appH];
       if (routes && routes[lang]) {
         el.setAttribute('href', BASE + routes[lang]);
@@ -360,13 +382,29 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
       el.setAttribute('href', BASE + appH);
     }
   });
+
+  // Show navbar gradient only after scrolling (skip work pages — WorkDetailScript handles those)
+  if (!document.body.classList.contains('canopy-type-work')) {
+    var navbarWrapper = document.querySelector('.navbar-wrapper');
+    if (navbarWrapper) {
+      var updateGradient = function() {
+        if (window.scrollY > 0) {
+          navbarWrapper.classList.add('navbar-wrapper--scrolled');
+        } else {
+          navbarWrapper.classList.remove('navbar-wrapper--scrolled');
+        }
+      };
+      window.addEventListener('scroll', updateGradient, { passive: true });
+      updateGradient();
+    }
+  }
 })();`;
 
   return (
     <div className="navbar-wrapper">
       <nav className="navbar">
         <div className="navbar__title">
-          <a href={nav.home} className="navbar__link--logo">Michel Chiha's <i>Constitutional Papers</i></a>
+          <a href={nav.home} className="navbar__link--logo">Michel Chiha's <span className="navbar__logo-line2"><i>Constitutional Papers</i></span></a>
         </div>
         <div className="navbar__search-container">
           <input
@@ -424,6 +462,13 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
             <a href={nav.papers.href} className="mob-menu__link">{nav.papers.label}</a>
             <a href={nav.timeline.href} className="mob-menu__link">{nav.timeline.label}</a>
           </nav>
+          <div className="mob-menu__lang">
+            <ul className="mob-menu__lang-list">
+              <li><a href="/" className="lang-switcher__option mob-menu__lang-link" data-lang="en">EN</a></li>
+              <li><a href="/fr/" className="lang-switcher__option mob-menu__lang-link" data-lang="fr">FR</a></li>
+              <li><a href="/ar/" className="lang-switcher__option mob-menu__lang-link" data-lang="ar">AR</a></li>
+            </ul>
+          </div>
         </div>
         <div className="mob-menu__footer">
           <img src="/footer_signature.png" className="mob-menu__signature" alt="" />

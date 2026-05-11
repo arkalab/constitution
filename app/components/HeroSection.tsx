@@ -214,7 +214,7 @@ export default function HeroSection() {
       <div ref={containerRef} className="hero__pixi-container" />
       <div className="hero__mobile-image">
         <img
-          src={`${basePath}/hero_image_mobile.png`}
+          src={`${basePath}/hero_image_mobile.webp`}
           alt="Michel Chiha's Constitutional Papers"
         />
       </div>

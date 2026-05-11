@@ -46,6 +46,9 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
     '/about/constitution': { fr: '/fr/a-propos/constitution', ar: '/ar/about/constitution' },
     '/about/document-guide': { fr: '/fr/a-propos/guide-documentaire', ar: '/ar/about/document-guide' },
     '/about/z-credits': { fr: '/fr/a-propos/z-credits', ar: '/ar/about/z-credits' },
+    '/about/index.html': { fr: '/fr/a-propos/index.html', ar: '/ar/about/index.html' },
+    '/about/document-guide.html': { fr: '/fr/a-propos/guide-documentaire.html', ar: '/ar/about/document-guide.html' },
+    '/about/z-credits.html': { fr: '/fr/a-propos/z-credits.html', ar: '/ar/about/z-credits.html' },
     '/search': { fr: '/fr/recherche', ar: '/ar/search' },
     '/timeline': { fr: '/fr/chronologie', ar: '/ar/timeline' },
   };
@@ -347,19 +350,25 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
   var mobLabelMap = {
     fr: {
       '/about': 'À propos',
+      '/about/index.html': 'À propos',
       '/search': 'Papiers',
       '/timeline': 'Chronologie',
       '/about/constitution': 'Constitution',
       '/about/document-guide': 'Guide documentaire',
+      '/about/document-guide.html': 'Papiers',
       '/about/z-credits': 'Crédits',
+      '/about/z-credits.html': 'Crédits',
     },
     ar: {
       '/about': 'About',
+      '/about/index.html': 'About',
       '/search': 'Papers',
       '/timeline': 'Timeline',
       '/about/constitution': 'Constitution',
       '/about/document-guide': 'Document Guide',
+      '/about/document-guide.html': 'Papers',
       '/about/z-credits': 'Credits',
+      '/about/z-credits.html': 'Credits',
     },
   };
   var mobNavEls = document.querySelectorAll('.mob-menu__link, .mob-menu__sublink, .mob-menu__title');
@@ -452,11 +461,10 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
           <nav className="mob-menu__nav">
             <a href={nav.home} className="mob-menu__link mob-menu__link--home">Home</a>
             <div className="mob-menu__item">
-              <a href={nav.about.href} className="mob-menu__link">{nav.about.label}</a>
+              <a href="/about/index.html" className="mob-menu__link">{nav.about.label}</a>
               <ul className="mob-menu__subnav">
-                <li><a href="/about/constitution" className="mob-menu__sublink">Constitution</a></li>
-                <li><a href="/about/document-guide" className="mob-menu__sublink">Document Guide</a></li>
-                <li><a href="/about/z-credits" className="mob-menu__sublink">Credits</a></li>
+                <li><a href="/about/document-guide.html" className="mob-menu__sublink">Papers</a></li>
+                <li><a href="/about/z-credits.html" className="mob-menu__sublink">Credits</a></li>
               </ul>
             </div>
             <a href={nav.papers.href} className="mob-menu__link">{nav.papers.label}</a>
@@ -473,7 +481,7 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
         <div className="mob-menu__footer">
           <img src="/footer_signature.png" className="mob-menu__signature" alt="" />
           <p className="mob-menu__copyright">© 2026 Michel Chiha Foundation, MIT License.</p>
-          <p className="mob-menu__copyright">A Canopy IIIF Project.</p>
+          <p className="mob-menu__copyright">Made by Arka with Canopy IIIF.</p>
         </div>
       </div>
       <script dangerouslySetInnerHTML={{ __html: script }} />

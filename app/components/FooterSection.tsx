@@ -166,7 +166,7 @@ export default function FooterSection({ lang = "en" }: FooterSectionProps) {
         />
         <div className="footer__copyright">
           <p className="footer__copyright-line">© 2026 Michel Chiha Foundation, MIT License.</p>
-          <p className="footer__copyright-line">A Canopy IIIF Project.</p>
+          <p className="footer__copyright-line">Made by Arka with Canopy IIIF.</p>
         </div>
       </div>
       <script dangerouslySetInnerHTML={{ __html: script }} />

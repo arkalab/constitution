@@ -17,6 +17,7 @@ export const components = {
   WorkDetailScript: "./WorkDetailScript.tsx",
   WorkMetadataPanel: "./WorkMetadataPanel.tsx",
   HeroMobileCard: "./HeroMobileCard.tsx",
+  TimelineSkeleton: "./TimelineSkeleton.tsx",
 };
  
 // Map browser-only components to their source files; the builder bundles

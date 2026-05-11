@@ -2417,6 +2417,115 @@ body.fr-about-page .canopy-nav-tree__list--nested {
   display: none;
 }
 
+/* ─── Timeline page wrapper — skeleton overlay anchor ─── */
+
+.ct-page-wrapper {
+  position: relative;
+  min-height: 100dvh;
+}
+
+/* ─── Timeline Skeleton ─── */
+
+.ct-skeleton-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  background: #f2efe8;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+/* Fade skeleton out once the real timeline JS has mounted */
+div:has([data-canopy-timeline-mounted="1"]) .ct-skeleton-wrapper {
+  opacity: 0;
+}
+
+/* Shimmer animation */
+@keyframes ct-skel-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Shared shimmer block style */
+.ct-skel-intro-title,
+.ct-skel-date,
+.ct-skel-title,
+.ct-skel-year,
+.ct-skel-manifest-card {
+  background: linear-gradient(
+    90deg,
+    rgba(26, 27, 37, 0.06) 25%,
+    rgba(26, 27, 37, 0.12) 50%,
+    rgba(26, 27, 37, 0.06) 75%
+  );
+  background-size: 400% 100%;
+  animation: ct-skel-shimmer 2s ease-in-out infinite;
+  border-radius: 4px;
+}
+
+/* Stagger each element slightly so the shimmer feels alive */
+.ct-skel-date          { animation-delay: 0.1s; }
+.ct-skel-title         { animation-delay: 0.2s; }
+.ct-skel-manifest-card { animation-delay: 0.3s; }
+
+/* Intro title — matches .ct-intro-title (35px font) */
+.ct-skel-intro-title {
+  height: 35px;
+  width: 72%;
+  margin-bottom: 16px;
+}
+
+/* Date label — matches .ct-date (15px) */
+.ct-skel-date {
+  height: 15px;
+  width: 40%;
+  margin-bottom: 14px;
+}
+
+/* Event title line — matches .ct-title (35px font) */
+.ct-skel-title {
+  height: 35px;
+  margin-bottom: 14px;
+}
+
+/* Year label in right column */
+.ct-skel-year {
+  height: 14px;
+  width: 38px;
+  margin-top: 6px;
+}
+
+/* Skeleton has its own top offset via the wrapper — cancel .ct-timeline's margin-top */
+.ct-skeleton-wrapper .ct-timeline {
+  margin-top: 0;
+}
+
+/* Manifest card thumbnails — stacked column, matching ct-manifest-card */
+.ct-skel-manifests {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 36px;
+}
+
+.ct-skel-manifest-card {
+  height: 120px;
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* Mobile: match the real timeline's mobile layout */
+@media (max-width: 768px) {
+  .ct-skeleton-wrapper {
+    position: absolute;
+  }
+
+  .ct-skel-intro-title { width: 90%; }
+  .ct-skel-title       { width: 95% !important; }
+}
+
 .ct-timeline {
   position: relative;
   padding-block: 0 4rem;

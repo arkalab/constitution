@@ -418,7 +418,12 @@ body[style*="overflow: hidden"] .navbar-wrapper::after {
   width: 100%;
 }
 
-.hero__mobile-image img {
+.hero__mobile-image__wrapper {
+  width: 100%;
+  overflow: hidden;
+}
+
+.hero__mobile-image__wrapper img {
   width: 100%;
   height: auto;
   display: block;
@@ -3185,6 +3190,24 @@ section[data-footnotes],
     display: block;
     padding-top: 96px;
     padding-inline: 20px;
+  }
+
+  .hero__mobile-image__wrapper {
+    height: 0;
+    transition: height 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .hero__mobile-image__wrapper img {
+    clip-path: inset(0 0 100% 0);
+    opacity: 0;
+    transition:
+      clip-path 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.08s,
+      opacity 0.5s ease 0.08s;
+  }
+
+  .hero__mobile-image__wrapper--loaded img {
+    clip-path: inset(0 0 0% 0);
+    opacity: 1;
   }
 
   /* Show the mobile card */

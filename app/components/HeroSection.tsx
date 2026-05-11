@@ -5,14 +5,44 @@ type LayerConfig = {sprite: Sprite; dx: number; dy: number; parallax: number};
 
 export default function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const mobileWrapperRef = useRef<HTMLDivElement>(null);
+  const mobileImgRef = useRef<HTMLImageElement>(null);
 
   const basePath =
     typeof window !== "undefined" && (window as any).CANOPY_BASE_PATH
       ? String((window as any).CANOPY_BASE_PATH).replace(/\/+$/, "")
       : "";
 
+  const handleMobileImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    if (window.innerWidth > 768) return;
+    const wrapper = mobileWrapperRef.current;
+    if (!wrapper) return;
+    const img = e.currentTarget;
+    const renderedHeight =
+      img.naturalWidth > 0
+        ? (img.naturalHeight * wrapper.clientWidth) / img.naturalWidth
+        : 600;
+    wrapper.style.height = `${Math.ceil(renderedHeight)}px`;
+    requestAnimationFrame(() => {
+      wrapper.classList.add("hero__mobile-image__wrapper--loaded");
+    });
+  };
+
   useEffect(() => {
-    if (window.innerWidth <= 768) return;
+    if (window.innerWidth <= 768) {
+      const img = mobileImgRef.current;
+      const wrapper = mobileWrapperRef.current;
+      if (img?.complete && img.naturalWidth > 0 && wrapper) {
+        const renderedHeight =
+          (img.naturalHeight * wrapper.clientWidth) / img.naturalWidth;
+        wrapper.style.transition = "none";
+        wrapper.style.height = `${Math.ceil(renderedHeight)}px`;
+        img.style.clipPath = "inset(0 0 0% 0)";
+        img.style.opacity = "1";
+        img.style.transition = "none";
+      }
+      return;
+    }
 
     const container = containerRef.current;
     if (!container) return;
@@ -213,10 +243,14 @@ export default function HeroSection() {
     <>
       <div ref={containerRef} className="hero__pixi-container" />
       <div className="hero__mobile-image">
-        <img
-          src={`${basePath}/hero_image_mobile.webp`}
-          alt="Michel Chiha's Constitutional Papers"
-        />
+        <div ref={mobileWrapperRef} className="hero__mobile-image__wrapper">
+          <img
+            ref={mobileImgRef}
+            src={`${basePath}/hero_image_mobile.webp`}
+            alt="Michel Chiha's Constitutional Papers"
+            onLoad={handleMobileImageLoad}
+          />
+        </div>
       </div>
     </>
   );

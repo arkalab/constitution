@@ -6,7 +6,14 @@ type LayerConfig = {sprite: Sprite; dx: number; dy: number; parallax: number};
 export default function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const basePath =
+    typeof window !== "undefined" && (window as any).CANOPY_BASE_PATH
+      ? String((window as any).CANOPY_BASE_PATH).replace(/\/+$/, "")
+      : "";
+
   useEffect(() => {
+    if (window.innerWidth <= 768) return;
+
     const container = containerRef.current;
     if (!container) return;
 
@@ -61,11 +68,6 @@ export default function HeroSection() {
       if (!mounted) return;
 
       container.appendChild(app.canvas);
-
-      const basePath =
-        typeof window !== "undefined" && (window as any).CANOPY_BASE_PATH
-          ? String((window as any).CANOPY_BASE_PATH).replace(/\/+$/, "")
-          : "";
 
       const texture_paper = await Assets.load(`${basePath}/collage_paper.webp`);
       const texture_draft = await Assets.load(`${basePath}/collage_draft.webp`);
@@ -207,5 +209,15 @@ export default function HeroSection() {
     };
   }, []);
 
-  return <div ref={containerRef} />;
+  return (
+    <>
+      <div ref={containerRef} className="hero__pixi-container" />
+      <div className="hero__mobile-image">
+        <img
+          src={`${basePath}/hero_image_mobile.png`}
+          alt="Michel Chiha's Constitutional Papers"
+        />
+      </div>
+    </>
+  );
 }

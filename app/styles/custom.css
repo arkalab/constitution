@@ -2424,6 +2424,12 @@ body.fr-about-page .canopy-nav-tree__list--nested {
   min-height: 100dvh;
 }
 
+/* ─── Mobile search bar (hidden on desktop) ─── */
+
+.mob-search-bar {
+  display: none;
+}
+
 /* ─── Timeline Skeleton ─── */
 
 .ct-skeleton-wrapper {
@@ -3039,17 +3045,81 @@ div:has([data-canopy-timeline-mounted="1"]) .ct-skeleton-wrapper {
     display: contents;
   }
 
+  /* ── Mobile search bar ── */
+  .mob-search-bar {
+    display: flex;
+    padding-block: 150px 50px;
+    padding-inline: 1rem;
+  }
+
+  .mob-search-bar__field {
+    position: relative;
+    flex: 1;
+  }
+
+  .mob-search-bar__input {
+    width: 100%;
+    font-family: var(--font-title);
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 1;
+    color: #1a1b25;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(26, 27, 37, 1);
+    padding: 0 32px 0 0;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .mob-search-bar__input::placeholder {
+    color: rgba(26, 27, 37, 0.5)
+  }
+
+  /* Hide the native clear button added by WebKit */
+  .mob-search-bar__input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+  }
+
+  .mob-search-bar__icon {
+    position: absolute;
+    right: 0;
+    bottom: 12px;
+    color: rgba(26, 27, 37, 0.35);
+    pointer-events: none;
+  }
+
+  .mob-search-bar__clear {
+    position: absolute;
+    right: 0;
+    bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: rgba(26, 27, 37, 0.45);
+  }
+
+  .mob-search-bar__clear:hover {
+    color: rgba(26, 27, 37, 0.8);
+  }
+
   /* Row 1: tabs — full width */
   .canopy-search-tabs {
     grid-area: tabs;
-    margin-top: 150px;
+    margin-top: 24px;
     margin-bottom: 24px;
   }
 
   .canopy-search-tabs button.canopy-search-tab {
     flex: 1;
     width: auto;
-    font-size: 20px;
+    font-size: 26px;
+    padding-bottom: 14px;
   }
 
   /* Row 2 left: summary */

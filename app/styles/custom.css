@@ -3557,6 +3557,12 @@ section[data-footnotes],
     padding: 20px;
     margin-top: 20px;
     margin-inline: 20px;
+    transition: margin-top 0.3s ease;
+  }
+
+  /* While image hasn't loaded yet, push the card below the navbar */
+  body:not(:has(.hero__mobile-image__wrapper--loaded)) .hero-mobile-card {
+    margin-top: 96px;
   }
 
   /* Hide desktop welcome text */

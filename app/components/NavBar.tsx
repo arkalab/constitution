@@ -481,7 +481,7 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
         <div className="mob-menu__footer">
           <img src="/footer_signature.png" className="mob-menu__signature" alt="" />
           <p className="mob-menu__copyright">© 2026 Michel Chiha Foundation, MIT License.</p>
-          <p className="mob-menu__copyright">Made by Arka with Canopy IIIF.</p>
+          <p className="mob-menu__copyright">Made by <a href="https://arka.la">Arka</a> with Canopy IIIF.</p>
         </div>
       </div>
       <script dangerouslySetInnerHTML={{ __html: script }} />

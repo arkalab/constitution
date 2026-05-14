@@ -21,6 +21,7 @@ export const components = {
   TimelineHydrator: "./TimelineHydrator.tsx",
   MobileSearchBar: "./MobileSearchBar.tsx",
   SearchSkeleton: "./SearchSkeleton.tsx",
+  SearchScroll: "./SearchScroll.tsx",
 };
  
 // Map browser-only components to their source files; the builder bundles

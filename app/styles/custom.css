@@ -736,7 +736,6 @@ body.canopy-type-search #search-results.space-y-6 {
   display: flex;
   gap: 1.5rem;
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
   padding-bottom: 260px;
   padding-top: 5px;
 }
@@ -752,7 +751,6 @@ body.canopy-type-search #search-results.space-y-6 {
 
 body.canopy-type-search .search-result.work {
   flex-shrink: 0;
-  scroll-snap-align: start;
   width: 312px;
   margin: 0;
 }

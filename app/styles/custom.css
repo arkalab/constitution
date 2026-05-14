@@ -14,6 +14,9 @@
 
     --color-accent-default: #5f6650 !important;
     --color-accent-default-rgb: 95 102 80;
+
+    --color-blue: var(--color-blue);
+    --color-blue-rgb: 26 27 37;
   }
 }
 
@@ -32,12 +35,12 @@
 @layer base {
   html {
     background-color: #f2efe8;
-    color: #1a1b25;
+    color: var(--color-blue);
   }
 
   body {
     background-color: #f2efe8;
-    color: #1a1b25;
+    color: var(--color-blue);
     font-family: var(--font-sans);
   }
 
@@ -177,7 +180,7 @@ body[style*="overflow: hidden"] .navbar-wrapper::after {
   border: none;
   border-bottom: 1px solid var(--color-accent-default);
   outline: none;
-  color: #1a1b25;
+  color: var(--color-blue);
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 100%;
@@ -214,8 +217,8 @@ body[style*="overflow: hidden"] .navbar-wrapper::after {
   left: 0;
   right: 0;
   background: #f2efe8;
-  border-top: 1px solid rgba(26, 27, 37, 0.08);
-  box-shadow: 0 8px 24px rgba(26, 27, 37, 0.13) !important;
+  border-top: 1px solid rgb(var(--color-blue-rgb) / 0.08);
+  box-shadow: 0 8px 24px rgb(var(--color-blue-rgb) / 0.13) !important;
   z-index: 99;
   max-height: 60vh;
   overflow-y: auto;
@@ -257,7 +260,7 @@ body[style*="overflow: hidden"] .navbar-wrapper::after {
   padding: 8px 2rem;
   font-family: var(--font-sans);
   font-size: 15px;
-  color: #1a1b25;
+  color: var(--color-blue);
   text-decoration: none;
 }
 
@@ -267,7 +270,7 @@ body[style*="overflow: hidden"] .navbar-wrapper::after {
 }
 
 .navbar__link {
-  color: #1a1b25;
+  color: var(--color-blue);
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 100%;
@@ -291,7 +294,7 @@ body[style*="overflow: hidden"] .navbar-wrapper::after {
   display: flex;
   align-items: center;
   gap: 4px;
-  color: #1a1b25;
+  color: var(--color-blue);
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 100%;
@@ -328,7 +331,7 @@ body[style*="overflow: hidden"] .navbar-wrapper::after {
   right: 0;
   top: calc(100% + 12px);
   background: #f2efe8;
-  border-top: 1px solid rgba(26, 27, 37, 0.1);
+  border-top: 1px solid rgb(var(--color-blue-rgb) / 0.1);
   padding: 6px 0;
   min-width: 48px;
   display: flex;
@@ -339,7 +342,7 @@ body[style*="overflow: hidden"] .navbar-wrapper::after {
 }
 
 .lang-switcher__option {
-  color: #1a1b25;
+  color: var(--color-blue);
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 100%;
@@ -354,7 +357,7 @@ body[style*="overflow: hidden"] .navbar-wrapper::after {
 }
 
 .navbar__link--logo {
-  color: #1a1b25;
+  color: var(--color-blue);
   font-family: var(--font-logo);
   font-size: 32px;
   line-height: 100%;
@@ -474,7 +477,7 @@ body[style*="overflow: hidden"] .navbar-wrapper::after {
   background: radial-gradient(
     circle at center,
     rgb(var(--color-accent-default-rgb) / 0.35),
-    rgba(26, 27, 37, 0.9)
+    rgb(var(--color-blue-rgb) / 0.9)
   );
 }
 
@@ -482,7 +485,7 @@ body[style*="overflow: hidden"] .navbar-wrapper::after {
   max-width: 900px;
   padding: 0 0 50px 0;
   margin: 0;
-  color: #1a1b25;
+  color: var(--color-blue);
   font-family: var(--font-title);
   font-size: 20px;
   line-height: 130%;
@@ -501,8 +504,8 @@ body[style*="overflow: hidden"] .navbar-wrapper::after {
   padding: 1rem 1.25rem;
   background: linear-gradient(
     to bottom,
-    rgba(26, 27, 37, 0.05),
-    rgba(26, 27, 37, 0.55)
+    rgb(var(--color-blue-rgb) / 0.05),
+    rgb(var(--color-blue-rgb) / 0.55)
   );
   color: #f2efe8;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
@@ -510,7 +513,7 @@ body[style*="overflow: hidden"] .navbar-wrapper::after {
 }
 
 .footer {
-  background-color: #1a1b25;
+  background-color: var(--color-blue);
   color: #f2efe8;
   padding: 58px 0;
 }
@@ -634,7 +637,7 @@ body.canopy-type-search .canopy-search {
   border: none;
   border-radius: 0;
   font: 400 28px/1.2 var(--font-title);
-  color: #1a1b25;
+  color: var(--color-blue);
   background-color: transparent;
   cursor: pointer;
   transition: color 0.5s ease;
@@ -658,11 +661,11 @@ body.canopy-type-search .canopy-search {
 }
 
 .canopy-search-tabs button.canopy-search-tab:hover {
-  color: #1a1b25;
+  color: var(--color-blue);
 }
 
 .canopy-search-tabs button.canopy-search-tab.is-active {
-  color: #1a1b25;
+  color: var(--color-blue);
 }
 
 .canopy-search-tabs button.canopy-search-tab.is-active::after {
@@ -673,7 +676,7 @@ body.canopy-type-search .canopy-search {
 
 button.canopy-search-tabs__filters-button {
   font: 400 28px/1.2 var(--font-title);
-  color: #1a1b25;
+  color: var(--color-blue);
   cursor: pointer;
   transition: color 0.2s ease;
   border: none;
@@ -715,7 +718,7 @@ button.canopy-search-tabs__filters-button > span:first-child::before {
 [data-canopy-search-summary] .text-sm {
   font-family: var(--font-sans);
   font-size: 12px;
-  color: #1a1b25;
+  color: var(--color-blue);
   margin-bottom: 15px;
 }
 
@@ -804,7 +807,7 @@ body.canopy-type-search .search-result.work .canopy-card figcaption span {
   font-weight: 400;
   font-size: 14px;
   line-height: 1;
-  color: #1a1b25;
+  color: var(--color-blue);
 }
 
 body.canopy-type-search .search-result.work .canopy-card figcaption {
@@ -870,7 +873,7 @@ body.canopy-type-search .canopy-article-card__url {
 body.canopy-type-search .canopy-article-card__snippet {
   font-family: var(--font-sans);
   font-size: 15px;
-  color: #1a1b25;
+  color: var(--color-blue);
   margin: 0;
 }
 
@@ -885,7 +888,7 @@ body.canopy-type-search [data-canopy-search-results] > .text-slate-600 {
   min-height: 50vh;
   padding: 2rem;
   font-family: var(--font-sans);
-  color: #1a1b25;
+  color: var(--color-blue);
 }
 
 /* ── Filters Modal ── */
@@ -919,7 +922,7 @@ body.canopy-type-search [data-canopy-search-results] > .text-slate-600 {
 }
 
 #canopy-modal-filters .canopy-modal__close:hover {
-  color: #1a1b25;
+  color: var(--color-blue);
 }
 
 #canopy-modal-filters .canopy-modal__brand {
@@ -1034,7 +1037,7 @@ body.canopy-type-search [data-canopy-search-results] > .text-slate-600 {
   padding: 0.4rem 0.75rem;
   font-family: var(--font-sans);
   font-size: 14px;
-  color: #1a1b25;
+  color: var(--color-blue);
   outline: none;
 }
 
@@ -1073,7 +1076,7 @@ body.canopy-type-search [data-canopy-search-results] > .text-slate-600 {
 #canopy-modal-filters .canopy-search-filters__facet-label {
   font-family: var(--font-sans);
   font-size: 14px;
-  color: #1a1b25;
+  color: var(--color-blue);
   cursor: pointer;
   user-select: none;
 }
@@ -1103,7 +1106,7 @@ body.canopy-type-search [data-canopy-search-results] > .text-slate-600 {
 }
 
 #canopy-modal-filters .canopy-search-filters__button--secondary {
-  color: #1a1b25;
+  color: var(--color-blue);
   background: none;
   border: 1.5px solid rgb(var(--color-accent-default-rgb) / 0.4);
   border-radius: 50px;
@@ -1287,7 +1290,7 @@ svg.canopy-nav-tree__toggle-icon {
   line-height: 1;
   letter-spacing: 0;
   text-align: center;
-  color: #1a1b25;
+  color: var(--color-blue);
   margin-bottom: 30px;
 }
 
@@ -1317,7 +1320,7 @@ svg.canopy-nav-tree__toggle-icon {
   font-family: var(--font-sans);
   font-size: 22px;
   line-height: 36px;
-  color: #1a1b25;
+  color: var(--color-blue);
   margin-bottom: 1.5rem;
 }
 
@@ -1474,7 +1477,7 @@ svg.canopy-nav-tree__toggle-icon {
   font-family: var(--font-sans);
   font-size: 22px;
   line-height: 36px;
-  color: #1a1b25;
+  color: var(--color-blue);
   min-width: 0;
 }
 
@@ -1491,7 +1494,7 @@ svg.canopy-nav-tree__toggle-icon {
   font-family: var(--font-title);
   font-size: 42px;
   font-weight: 400;
-  color: #1a1b25;
+  color: var(--color-blue);
   line-height: 36px;
   margin-bottom: 70px;
 }
@@ -1500,7 +1503,7 @@ svg.canopy-nav-tree__toggle-icon {
   font-family: var(--font-title);
   font-size: 32px;
   font-weight: 400;
-  color: #1a1b25;
+  color: var(--color-blue);
   line-height: 36px;
   margin-block: 50px 50px;
 }
@@ -1509,7 +1512,7 @@ svg.canopy-nav-tree__toggle-icon {
   font-family: var(--font-title);
   font-size: 28px;
   font-weight: 400;
-  color: #1a1b25;
+  color: var(--color-blue);
   line-height: 36px;
   margin-block: 50px 50px;
 }
@@ -1518,7 +1521,7 @@ svg.canopy-nav-tree__toggle-icon {
   font-family: var(--font-sans);
   font-size: 22px;
   font-weight: 400;
-  color: #1a1b25;
+  color: var(--color-blue);
   line-height: 36px;
   margin-bottom: 25px;
 }
@@ -1571,7 +1574,7 @@ svg.canopy-nav-tree__toggle-icon {
   font-family: var(--font-sans);
   font-size: 22px;
   line-height: 36px;
-  color: #1a1b25;
+  color: var(--color-blue);
   margin-bottom: 1.5rem;
 }
 
@@ -1722,7 +1725,7 @@ body.canopy-type-work .navbar-wrapper--scrolled::after {
 
 body.canopy-type-work .navbar-wrapper--scrolled .navbar__link,
 body.canopy-type-work .navbar-wrapper--scrolled .navbar__link--logo {
-  color: #1a1b25;
+  color: var(--color-blue);
 }
 
 body.canopy-type-work .navbar-wrapper--scrolled .navbar__link:hover,
@@ -1862,7 +1865,7 @@ body.fr-about-page .canopy-nav-tree__list--nested {
   font-family: var(--font-title);
   font-weight: 400;
   font-size: 34px;
-  color: #1a1b25;
+  color: var(--color-blue);
   line-height: 1.15;
   margin: 0;
 }
@@ -1871,7 +1874,7 @@ body.fr-about-page .canopy-nav-tree__list--nested {
   font-family: var(--font-title);
   font-weight: 400;
   font-size: 20px;
-  color: #1a1b25;
+  color: var(--color-blue);
   line-height: 1.4;
   margin: 0;
 }
@@ -1886,7 +1889,7 @@ body.fr-about-page .canopy-nav-tree__list--nested {
   font-family: var(--font-title);
   font-weight: 400;
   font-size: 20px;
-  color: #1a1b25;
+  color: var(--color-blue);
 }
 
 .wmp__manifest-link {
@@ -1933,12 +1936,12 @@ body.fr-about-page .canopy-nav-tree__list--nested {
   font-family: var(--font-sans);
   font-weight: 400;
   font-size: 20px;
-  color: #1a1b25;
+  color: var(--color-blue);
   line-height: 1.4;
 }
 
 .wmp__value a {
-  color: #1a1b25;
+  color: var(--color-blue);
   text-decoration: none;
 }
 
@@ -2318,7 +2321,7 @@ body.fr-about-page .canopy-nav-tree__list--nested {
   font-family: var(--font-title) !important;
   font-size: 32px !important;
   font-weight: 400 !important;
-  color: #1a1b25 !important;
+  color: var(--color-blue) !important;
   line-height: 1.1 !important;
   text-transform: capitalize !important;
   letter-spacing: 0;
@@ -2462,9 +2465,9 @@ div:has([data-canopy-timeline-mounted="1"]) .ct-skeleton-wrapper {
 .ct-skel-manifest-card {
   background: linear-gradient(
     90deg,
-    rgba(26, 27, 37, 0.06) 25%,
-    rgba(26, 27, 37, 0.12) 50%,
-    rgba(26, 27, 37, 0.06) 75%
+    rgb(var(--color-blue-rgb) / 0.06) 25%,
+    rgb(var(--color-blue-rgb) / 0.12) 50%,
+    rgb(var(--color-blue-rgb) / 0.06) 75%
   );
   background-size: 400% 100%;
   animation: ct-skel-shimmer 2s ease-in-out infinite;
@@ -2567,9 +2570,9 @@ body:has(.canopy-search-tabs-wrapper) .srch-skeleton-wrapper {
 .srch-skel-card__line {
   background: linear-gradient(
     90deg,
-    rgba(26, 27, 37, 0.07) 25%,
-    rgba(26, 27, 37, 0.13) 50%,
-    rgba(26, 27, 37, 0.07) 75%
+    rgb(var(--color-blue-rgb) / 0.07) 25%,
+    rgb(var(--color-blue-rgb) / 0.13) 50%,
+    rgb(var(--color-blue-rgb) / 0.07) 75%
   );
   background-size: 1200px 100%;
   animation: srch-skel-shimmer 1.4s ease-in-out infinite;
@@ -2796,7 +2799,7 @@ body:has(.canopy-search-tabs-wrapper) .srch-skeleton-wrapper {
 }
 
 .ct-title {
-  color: rgba(26, 27, 37, 1);
+  color: var(--color-blue);
   font-size: 35px;
   line-height: 1.2;
   font-family: var(--font-title);
@@ -2874,7 +2877,7 @@ body:has(.canopy-search-tabs-wrapper) .srch-skeleton-wrapper {
   font-weight: 400;
   font-size: 24px;
   line-height: 1.2;
-  color: rgba(26, 27, 37, 1);
+  color: var(--color-blue);
   text-align: left;
 }
 
@@ -2898,7 +2901,7 @@ body:has(.canopy-search-tabs-wrapper) .srch-skeleton-wrapper {
   display: block;
   width: 22px;
   height: 1.5px;
-  background: #1a1b25;
+  background: var(--color-blue);
   border-radius: 2px;
 }
 
@@ -2996,7 +2999,7 @@ body:has(.canopy-search-tabs-wrapper) .srch-skeleton-wrapper {
 }
 
 .mob-menu__title {
-  color: #1a1b25;
+  color: var(--color-blue);
   font-family: var(--font-logo);
   font-size: 32px;
   line-height: 100%;
@@ -3013,7 +3016,7 @@ body:has(.canopy-search-tabs-wrapper) .srch-skeleton-wrapper {
   padding: 0;
   cursor: pointer;
   font-size: 22px;
-  color: #1a1b25;
+  color: var(--color-blue);
   line-height: 1;
   display: flex;
   align-items: center;
@@ -3040,8 +3043,8 @@ body:has(.canopy-search-tabs-wrapper) .srch-skeleton-wrapper {
 .mob-menu__link {
   display: block;
   padding: 18px 0;
-  border-bottom: 1px solid rgba(26, 27, 37, 1);
-  color: #1a1b25;
+  border-bottom: 1px solid var(--color-blue);
+  color: var(--color-blue);
   font-family: var(--font-title);
   font-size: clamp(36px, 12vw, 62px);
   font-weight: 400;
@@ -3055,7 +3058,7 @@ body:has(.canopy-search-tabs-wrapper) .srch-skeleton-wrapper {
 }
 
 .mob-menu__item {
-  border-bottom: 1px solid rgba(26, 27, 37, 1);
+  border-bottom: 1px solid var(--color-blue);
 }
 
 .mob-menu__item > .mob-menu__link {
@@ -3073,7 +3076,7 @@ body:has(.canopy-search-tabs-wrapper) .srch-skeleton-wrapper {
 .mob-menu__sublink {
   display: block;
   padding: 4px 0;
-  color: rgba(26, 27, 37, 1);
+  color: var(--color-blue);
   font-family: var(--font-title);
   font-size: 20px;
   font-weight: 400;
@@ -3087,7 +3090,7 @@ body:has(.canopy-search-tabs-wrapper) .srch-skeleton-wrapper {
 }
 
 .mob-menu__sublink:hover {
-  color: #1a1b25;
+  color: var(--color-blue);
 }
 
 .mob-menu__footer {
@@ -3105,7 +3108,7 @@ body:has(.canopy-search-tabs-wrapper) .srch-skeleton-wrapper {
 
 .mob-menu__lang-link {
   display: block;
-  color: rgba(26, 27, 37, 1);
+  color: var(--color-blue);
   font-family: var(--font-title);
   font-size: 24px;
   font-weight: 400;
@@ -3127,7 +3130,7 @@ body:has(.canopy-search-tabs-wrapper) .srch-skeleton-wrapper {
 .mob-menu__copyright {
   font-family: var(--font-sans);
   font-size: 12px;
-  color: rgba(26, 27, 37, 0.5);
+  color: rgb(var(--color-blue-rgb) / 0.5);
   margin: 0;
   padding-block: 2px;
 }
@@ -3180,10 +3183,10 @@ body:has(.canopy-search-tabs-wrapper) .srch-skeleton-wrapper {
     font-weight: 400;
     font-size: 36px;
     line-height: 1;
-    color: #1a1b25;
+    color: var(--color-blue);
     background: transparent;
     border: none;
-    border-bottom: 1px solid rgba(26, 27, 37, 1);
+    border-bottom: 1px solid var(--color-blue);
     padding: 0 32px 0 0;
     outline: none;
     -webkit-appearance: none;
@@ -3191,7 +3194,7 @@ body:has(.canopy-search-tabs-wrapper) .srch-skeleton-wrapper {
   }
 
   .mob-search-bar__input::placeholder {
-    color: rgba(26, 27, 37, 0.5)
+    color: rgb(var(--color-blue-rgb) / 0.5)
   }
 
   /* Hide the native clear button added by WebKit */
@@ -3203,7 +3206,7 @@ body:has(.canopy-search-tabs-wrapper) .srch-skeleton-wrapper {
     position: absolute;
     right: 0;
     bottom: 12px;
-    color: rgba(26, 27, 37, 0.35);
+    color: rgb(var(--color-blue-rgb) / 0.35);
     pointer-events: none;
   }
 
@@ -3218,11 +3221,11 @@ body:has(.canopy-search-tabs-wrapper) .srch-skeleton-wrapper {
     border: none;
     padding: 0;
     cursor: pointer;
-    color: rgba(26, 27, 37, 0.45);
+    color: rgb(var(--color-blue-rgb) / 0.45);
   }
 
   .mob-search-bar__clear:hover {
-    color: rgba(26, 27, 37, 0.8);
+    color: rgb(var(--color-blue-rgb) / 0.8);
   }
 
   /* Row 1: tabs — full width */
@@ -3569,4 +3572,115 @@ section[data-footnotes],
   .hero__welcome-desktop {
     display: none;
   }
+}
+
+/* ============================================================
+   Upstream Canopy Timeline restyle
+   Goal: tick mark across the top of each card, away from the spine.
+   ============================================================ */
+
+/* Align cards by their top edge so the tick sits at the top */
+.canopy-timeline__point-wrapper {
+  align-items: flex-start;
+}
+
+/* Cards span the full wrapper width (so the tick at the corner reaches the spine),
+   but the inner content keeps padding on the spine-facing side for breathing room.
+   Left-side cards: text aligns left; pad on the right.
+   Right-side cards: text aligns right; pad on the left. */
+.canopy-timeline__point-wrapper--left {
+  justify-content: flex-start;
+  padding-right: 0;
+  text-align: left;
+}
+
+.canopy-timeline__point-wrapper--right {
+  justify-content: flex-end;
+  padding-left: 0;
+  text-align: right;
+}
+
+.canopy-timeline__point,
+.canopy-timeline__group {
+  width: 100%;
+  max-width: none;
+}
+
+.canopy-timeline__point-wrapper--left .canopy-timeline__point,
+.canopy-timeline__point-wrapper--left .canopy-timeline__group {
+  padding-right: 6rem;
+}
+
+.canopy-timeline__point-wrapper--right .canopy-timeline__point,
+.canopy-timeline__point-wrapper--right .canopy-timeline__group {
+  padding-left: 10rem;
+}
+
+/* Hide upstream's connector (line + dot between card and spine) */
+.canopy-timeline__connector {
+  display: none;
+}
+
+/* Hide upstream's inline step labels for now — year markers handled separately */
+.canopy-timeline__step {
+  display: none;
+}
+
+/* Spine: use project olive (upstream defaults to --color-accent-400 which is
+   still the published blue palette since custom.css only overrides accent-default). */
+.canopy-timeline__spine {
+  background: var(--color-accent-default);
+}
+
+/* Typography: date label — olive, sans, 15px */
+.canopy-timeline__point-date {
+  color: var(--color-accent-default);
+  font-family: var(--font-sans);
+  font-size: 15px;
+}
+
+/* Typography: title — project blue, serif title font, 35px */
+.canopy-timeline__point-title {
+  color: var(--color-blue);
+  font-family: var(--font-title);
+  font-size: 25px;
+  font-weight: 400;
+}
+
+/* Card gets a horizontal rule across its top edge with a small vertical tick
+   on the outer corner (away from the spine). */
+.canopy-timeline__point {
+  position: relative;
+  padding-top: 1.5rem;
+}
+
+.canopy-timeline__point::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--color-accent-default);
+}
+
+/* Tick vertical stub on the outer corner of each card (away from spine) */
+.canopy-timeline__point-wrapper--left .canopy-timeline__point::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 0.5rem;
+  background: var(--color-accent-default);
+}
+
+.canopy-timeline__point-wrapper--right .canopy-timeline__point::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 0.5rem;
+  background: var(--color-accent-default);
 }

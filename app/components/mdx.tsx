@@ -18,6 +18,7 @@ export const components = {
   WorkMetadataPanel: "./WorkMetadataPanel.tsx",
   HeroMobileCard: "./HeroMobileCard.tsx",
   TimelineSkeleton: "./TimelineSkeleton.tsx",
+  TimelineHydrator: "./TimelineHydrator.tsx",
   MobileSearchBar: "./MobileSearchBar.tsx",
   SearchSkeleton: "./SearchSkeleton.tsx",
 };

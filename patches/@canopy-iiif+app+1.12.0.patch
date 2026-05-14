@@ -1,0 +1,297 @@
+diff --git a/node_modules/@canopy-iiif/app/lib/build/search.js b/node_modules/@canopy-iiif/app/lib/build/search.js
+index da0b269..23db4f3 100644
+--- a/node_modules/@canopy-iiif/app/lib/build/search.js
++++ b/node_modules/@canopy-iiif/app/lib/build/search.js
+@@ -138,7 +138,7 @@ async function writeFacetCollections(labelWhitelist, combined) {
+       }
+       const selfId = absoluteUrl(`/api/facet/${labelSlug}/${valueSlug}.json`);
+       const parentId = absoluteUrl(`/api/facet/${labelSlug}.json`);
+-      const homepage = absoluteUrl(`/search/index.html?${encodeURIComponent(labelSlug)}=${encodeURIComponent(valueSlug)}`);
++      const homepage = absoluteUrl(`/search?${encodeURIComponent(labelSlug)}=${encodeURIComponent(valueSlug)}`);
+       const col = {
+         '@context': 'https://iiif.io/api/presentation/3/context.json',
+         id: selfId,
+@@ -211,6 +211,7 @@ async function collectMdxPageRecords() {
+           const href = rootRelativeHref(rel.split(path.sep).join('/'));
+           const plainText = mdx.extractPlainText(src);
+           const markdownSummary = mdx.extractMarkdownSummary(src);
++          const descriptionFallback = (fm && fm.data && typeof fm.data.description === 'string') ? fm.data.description.trim() : '';
+           const summary = plainText || '';
+           const underSearch = /^search\//i.test(href) || href.toLowerCase() === 'search.html';
+           let include = !underSearch;
+@@ -234,8 +235,8 @@ async function collectMdxPageRecords() {
+             href,
+             searchInclude: include && !!trimmedType,
+             searchType: trimmedType || undefined,
+-            searchSummary: summary,
+-            searchSummaryMarkdown: markdownSummary,
++            searchSummary: summary || descriptionFallback,
++            searchSummaryMarkdown: markdownSummary || descriptionFallback,
+           });
+         }
+       }
+diff --git a/node_modules/@canopy-iiif/app/lib/components/timeline-runtime.js b/node_modules/@canopy-iiif/app/lib/components/timeline-runtime.js
+index 1b3f17c..155003c 100644
+--- a/node_modules/@canopy-iiif/app/lib/components/timeline-runtime.js
++++ b/node_modules/@canopy-iiif/app/lib/components/timeline-runtime.js
+@@ -1,6 +1,5 @@
+-import React from 'react';
+-import { createRoot, hydrateRoot } from 'react-dom/client';
+-import { Timeline } from '../../ui/dist/index.mjs';
++// Custom vanilla-JS timeline renderer — replaces the React Timeline component.
++// Consumes the __canopyTimeline.points JSON already embedded by MdxTimeline (server-side).
+ 
+ function ready(fn) {
+   if (typeof document === 'undefined') return;
+@@ -19,25 +18,182 @@ function parseProps(el) {
+   }
+ }
+ 
++function esc(str) {
++  return String(str || '')
++    .replace(/&/g, '&amp;')
++    .replace(/</g, '&lt;')
++    .replace(/>/g, '&gt;')
++    .replace(/"/g, '&quot;');
++}
++
++function formatDate(iso) {
++  const [y, m, d] = iso.split('-').map(Number);
++  return new Date(y, m - 1, d).toLocaleDateString('en-US', {
++    month: 'long', day: 'numeric', year: 'numeric'
++  });
++}
++
++function getYear(group) {
++  const match = /\d{4}/.exec(group[0].meta.label || '');
++  return match ? match[0] : '';
++}
++
++function buildCorner(isLeft) {
++  if (isLeft) {
++    return `<div class="ct-corner ct-corner--left"><div class="ct-corner__v"></div><div class="ct-corner__h"></div></div>`;
++  }
++  return `<div class="ct-corner ct-corner--right"><div class="ct-corner__h"></div><div class="ct-corner__v"></div></div>`;
++}
++
++function buildYearRow(year, side) {
++  const isLeft = side === 'left';
++  const yearHtml = `<div class="ct-year">${esc(String(year))}</div>`;
++  const leftCell  = isLeft  ? yearHtml : '';
++  const rightCell = !isLeft ? yearHtml : '';
++  return `
++    <div class="ct-row ct-row--year">
++      <div class="ct-cell ct-cell--left">${leftCell}</div>
++      <div class="ct-dot-col"></div>
++      <div class="ct-cell ct-cell--right">${rightCell}</div>
++    </div>`;
++}
++
++function buildIntroRow(title, rangeStart, rangeEnd, startYear) {
++  const dateRange = `${formatDate(rangeStart)} – ${formatDate(rangeEnd)}`;
++  const cardHtml = `
++    <div class="ct-card ct-card--intro">
++      <div class="ct-intro-title">${esc(title)}</div>
++      <div class="ct-intro-date">${esc(dateRange)}</div>
++    </div>`;
++  return `
++    <div class="ct-row">
++      <div class="ct-cell ct-cell--left">${cardHtml}</div>
++      <div class="ct-dot-col"></div>
++      <div class="ct-cell ct-cell--right"><div class="ct-year">${esc(String(startYear))}</div></div>
++    </div>`;
++}
++
++function buildManifestCard(m) {
++  const href = esc(m.href || '#');
++  const title = esc(m.title || '');
++  const thumb = m.thumbnail ? esc(m.thumbnail) : '';
++  const img = thumb
++    ? `<img src="${thumb}" alt="" width="100" height="100" loading="lazy">`
++    : `<span class="ct-manifest-card__no-thumb"></span>`;
++  return `<a class="ct-manifest-card" href="${href}">${img}<span>${title}</span></a>`;
++}
++
++function buildGroup(group, side) {
++  const isLeft = side === 'left';
++
++  const label = esc(group[0].meta.label);
++  const countHtml = group.length > 1 ? `<div class="ct-count">${group.length} Events</div>` : '';
++
++  // Collect all unique manifests across points in this group
++  const allManifests = [];
++  const seen = new Set();
++  for (const pt of group) {
++    if (Array.isArray(pt.manifests)) {
++      for (const m of pt.manifests) {
++        const key = m.id || m.href;
++        if (key && !seen.has(key)) { seen.add(key); allManifests.push(m); }
++      }
++    }
++  }
++
++  const numbered = group.length > 1;
++  const titlesHtml = group
++    .map((pt, idx) => {
++      const num = numbered ? `<span class="ct-title-num">${idx + 1}.</span> ` : '';
++      return `<div class="ct-title">${num}${esc(pt.title)}</div>`;
++    })
++    .join('');
++
++  const manifestsHtml = allManifests.length
++    ? `<div class="ct-manifests">${allManifests.map(buildManifestCard).join('')}</div>`
++    : '';
++
++  const cardHtml = `
++    <div class="ct-card">
++      ${buildCorner(isLeft)}
++      <div class="ct-date">${label}</div>
++      ${countHtml}
++      ${titlesHtml}
++      ${manifestsHtml}
++    </div>`;
++
++  const leftCell  = isLeft  ? cardHtml : '';
++  const rightCell = !isLeft ? cardHtml : '';
++
++  return `
++    <div class="ct-row">
++      <div class="ct-cell ${isLeft ? 'ct-cell--left' : 'ct-cell--right ct-cell--empty'}">${leftCell}</div>
++      <div class="ct-dot-col"></div>
++      <div class="ct-cell ${!isLeft ? 'ct-cell--right' : 'ct-cell--left ct-cell--empty'}">${rightCell}</div>
++    </div>`;
++}
++
++function renderTimeline(el, points, title, range) {
++  // Sort by timestamp
++  const sorted = points.slice().sort((a, b) => (a.meta.timestamp || 0) - (b.meta.timestamp || 0));
++
++  // Group consecutive points with the same timestamp
++  const groups = [];
++  for (const pt of sorted) {
++    const ts = pt.meta.timestamp;
++    const last = groups[groups.length - 1];
++    if (last && last[0].meta.timestamp === ts) {
++      last.push(pt);
++    } else {
++      groups.push([pt]);
++    }
++  }
++
++  const rows = [];
++
++  // Intro card (left) + start year (right)
++  const startYear = range && range.start ? range.start.slice(0, 4) : (groups[0] ? getYear(groups[0]) : '');
++  if (title && range && range.start && range.end) {
++    rows.push(buildIntroRow(title, range.start, range.end, startYear));
++  }
++
++  // Event groups with year-transition markers
++  let lastYear = startYear;
++  groups.forEach((group, i) => {
++    const side = i % 2 === 0 ? 'left' : 'right';
++    const year = getYear(group);
++    if (year && year !== lastYear) {
++      // Year marker on the opposite side from the first card of the new year
++      rows.push(buildYearRow(year, side === 'left' ? 'right' : 'left'));
++      lastYear = year;
++    }
++    rows.push(buildGroup(group, side));
++  });
++
++  // End year marker on the opposite side from the last group
++  if (groups.length > 0) {
++    const lastSide = (groups.length - 1) % 2 === 0 ? 'left' : 'right';
++    rows.push(buildYearRow(lastYear, lastSide === 'left' ? 'right' : 'left'));
++  }
++
++  el.innerHTML = `<div class="ct-timeline"><div class="ct-rows">${rows.join('')}</div></div>`;
++}
++
+ function mount(el) {
+   try {
+     if (!el || el.getAttribute('data-canopy-timeline-mounted') === '1') return;
+     const props = parseProps(el);
+     const dataNode = el.querySelector('script[type="application/json"]');
+-    if (dataNode && dataNode.parentNode === el) {
+-      dataNode.parentNode.removeChild(dataNode);
+-    }
+-    if (el.childElementCount > 0) {
+-      hydrateRoot(el, React.createElement(Timeline, props));
+-    } else {
+-      const root = createRoot(el);
+-      root.render(React.createElement(Timeline, props));
+-    }
++    if (dataNode && dataNode.parentNode === el) dataNode.parentNode.removeChild(dataNode);
++
++    const points = props.__canopyTimeline && Array.isArray(props.__canopyTimeline.points)
++      ? props.__canopyTimeline.points
++      : [];
++
++    renderTimeline(el, points, props.title || '', props.range || null);
+     el.setAttribute('data-canopy-timeline-mounted', '1');
+   } catch (error) {
+-    try {
+-      console.warn('[canopy][timeline] failed to mount timeline', error);
+-    } catch (_) {}
++    try { console.warn('[canopy][timeline] failed to mount timeline', error); } catch (_) {}
+   }
+ }
+ 
+@@ -58,18 +214,13 @@ function observe() {
+           mutation.addedNodes.forEach((node) => {
+             if (!(node instanceof Element)) return;
+             if (node.matches && node.matches('[data-canopy-timeline]')) toMount.push(node);
+-            const inner = node.querySelectorAll
+-              ? node.querySelectorAll('[data-canopy-timeline]')
+-              : [];
++            const inner = node.querySelectorAll ? node.querySelectorAll('[data-canopy-timeline]') : [];
+             inner && inner.forEach && inner.forEach((el) => toMount.push(el));
+           });
+       });
+       if (toMount.length) Promise.resolve().then(() => toMount.forEach(mount));
+     });
+-    obs.observe(document.documentElement || document.body, {
+-      childList: true,
+-      subtree: true,
+-    });
++    obs.observe(document.documentElement || document.body, { childList: true, subtree: true });
+   } catch (_) {}
+ }
+ 
+diff --git a/node_modules/@canopy-iiif/app/lib/search/search-app.jsx b/node_modules/@canopy-iiif/app/lib/search/search-app.jsx
+index 8a7dec4..d28a52f 100644
+--- a/node_modules/@canopy-iiif/app/lib/search/search-app.jsx
++++ b/node_modules/@canopy-iiif/app/lib/search/search-app.jsx
+@@ -291,6 +291,22 @@ function createSearchStore() {
+           base = [];
+         }
+       }
++      // Locale filter: only show page records matching the current page locale
++      const _docLocale = readDocumentLocale().toLowerCase();
++      let _localeRecords = records;
++      if (_docLocale) {
++        const _basePath = readBasePath();
++        const _localePageFilter = (r) => {
++          if (!r || String((r && r.type) || "").toLowerCase() !== "page") return true;
++          let href = typeof r.href === "string" ? r.href : "";
++          if (_basePath && href.startsWith(_basePath)) href = href.slice(_basePath.length);
++          if (href.startsWith("/ar/") || href === "/ar") return _docLocale === "ar";
++          if (href.startsWith("/fr/") || href === "/fr") return _docLocale === "fr";
++          return _docLocale === "en";
++        };
++        base = base.filter(_localePageFilter);
++        _localeRecords = records.filter(_localePageFilter);
++      }
+       const normalizedFilters =
+         filters && typeof filters === "object" ? filters : {};
+       const totalActiveFilters = Object.keys(normalizedFilters).reduce(
+@@ -379,7 +395,7 @@ function createSearchStore() {
+ 
+         if (typeLower !== "all") {
+           try {
+-            totalForType = records.filter(
++            totalForType = _localeRecords.filter(
+               (r) => String(r.type).toLowerCase() === typeLower
+             ).length;
+           } catch (_) {}

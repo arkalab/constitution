@@ -2327,6 +2327,23 @@ body.fr-about-page .canopy-nav-tree__list--nested {
   margin: 0 !important;
 }
 
+/* Override Clover's @xs breakpoint that stacks the header and stretches the
+   button cluster to full width. Keep title left / buttons right at all sizes. */
+.work-detail__related [data-testid="slider-header"] {
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  column-gap: 16px;
+}
+
+.work-detail__related [data-testid="slider-header"] > div:last-child {
+  width: auto !important;
+  justify-content: flex-end !important;
+  padding: 0 !important;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
 /* Group value (top) + field name (bottom) with a vertical bar on the left */
 .work-detail__related [data-testid="slider-header"] > div:first-child {
   position: relative;
@@ -2334,6 +2351,7 @@ body.fr-about-page .canopy-nav-tree__list--nested {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;
 }
 
 .work-detail__related [data-testid="slider-header"] > div:first-child > a.clover-slider-header-homepage,

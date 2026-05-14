@@ -830,7 +830,8 @@ body.canopy-type-search #search-results:has(.search-result.page) {
   gap: 1.5rem;
   max-width: 648px;
   overflow-x: visible;
-  scroll-snap-type: none;
+  overflow-y: auto;
+  max-height: calc(100dvh - 240px);
   padding-left: 0;
   padding-block: 45px 85px;
 }

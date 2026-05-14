@@ -1,3 +1,5 @@
+site:
+  baseUrl: https://constitution.michelchiha.org
 collection:
   - https://iiif.michelchiha.org/collection
 metadata:
